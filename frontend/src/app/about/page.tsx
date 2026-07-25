@@ -10,7 +10,7 @@ export default function AboutPage() {
           </a>
           <div>
             <h1 className="text-2xl sm:text-3xl font-black text-white f1-font tracking-wide">
-              <span className="text-f1-red">F1</span> REPLAY TIMING ABOUT
+              <span className="text-f1-red">Pit</span>Wall About
             </h1>
             <p className="text-xs text-f1-muted uppercase tracking-widest font-semibold">Technical Specifications & Project Info</p>
           </div>

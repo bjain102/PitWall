@@ -21,7 +21,7 @@ export default function FeaturesPage() {
           </button>
           <div>
             <h1 className="text-2xl sm:text-3xl font-black text-white f1-font tracking-wide">
-              <span className="text-f1-red">F1</span> REPLAY TIMING FEATURES
+              <span className="text-f1-red">Pit</span>Wall Features
             </h1>
             <p className="text-xs text-f1-muted uppercase tracking-widest font-semibold">User Guide & Telemetry Capability Overview</p>
           </div>
@@ -431,10 +431,16 @@ export default function FeaturesPage() {
             provide real-time leaderboard data, tyre information, race control messages, and weather.
           </p>
           <p className="text-f1-text leading-relaxed mb-3">
-            Driver positions on the track map and telemetry data (speed, throttle, brake, gear) are
-            not available in live mode, as track position data requires an authenticated F1 TV
-            subscription. These become available in replay mode once the session is processed via
-            FastF1, typically 1&ndash;2 hours after the chequered flag.
+            Driver positions on the track map are also shown live, without needing an authenticated
+            F1 TV subscription. Since raw GPS telemetry isn&rsquo;t available on the unauthenticated
+            stream, position is instead extrapolated in real time from live sector (S1/S2/S3) crossing
+            times mapped onto each circuit&rsquo;s track spline &mdash; an approximation of where each
+            car is, not exact GPS.
+          </p>
+          <p className="text-f1-text leading-relaxed mb-3">
+            Detailed telemetry channels (speed, throttle, brake, gear, DRS) still require the full
+            FastF1 dataset and are only available in replay mode once the session is processed,
+            typically 1&ndash;2 hours after the chequered flag.
           </p>
           <h3 className="text-sm font-bold text-f1-red uppercase tracking-wider mb-2">
             Broadcast delay
