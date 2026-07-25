@@ -1,6 +1,21 @@
 import type { Metadata, Viewport } from "next";
+import { Barlow_Condensed, Titillium_Web } from "next/font/google";
 import "./globals.css";
 import AuthGate from "@/components/AuthGate";
+
+const barlowCondensed = Barlow_Condensed({
+  weight: ["400", "500", "600", "700", "800"],
+  subsets: ["latin"],
+  variable: "--font-barlow-condensed",
+  display: "swap",
+});
+
+const titilliumWeb = Titillium_Web({
+  weight: ["400", "600", "700", "900"],
+  subsets: ["latin"],
+  variable: "--font-titillium-web",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "F1 Replay Timing",
@@ -22,8 +37,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className="bg-f1-dark text-f1-text antialiased">
+    <html lang="en" className={`${barlowCondensed.variable} ${titilliumWeb.variable}`}>
+      <body className="bg-f1-dark text-f1-text antialiased font-sans">
         <AuthGate>{children}</AuthGate>
       </body>
     </html>

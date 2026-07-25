@@ -101,49 +101,50 @@ export default function AuthGate({ children }: { children: React.ReactNode }) {
 
   if (checking) {
     return (
-      <div className="min-h-screen bg-f1-dark flex items-center justify-center">
-        <div className="w-6 h-6 border-2 border-f1-red border-t-transparent rounded-full animate-spin" />
+      <div className="min-h-screen carbon-bg flex items-center justify-center">
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-10 h-10 border-4 border-f1-border border-t-f1-red rounded-full animate-spin shadow-f1-red" />
+          <span className="text-white font-extrabold text-xs uppercase tracking-widest f1-font">Authenticating Paddock Access...</span>
+        </div>
       </div>
     );
   }
 
   if (connectionError) {
     return (
-      <div className="min-h-screen bg-f1-dark flex items-center justify-center px-4">
+      <div className="min-h-screen carbon-bg flex items-center justify-center px-4">
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
-            <img src="/logo.png" alt="F1 Replay" className="w-16 h-16 rounded-lg mx-auto mb-4" />
-            <h1 className="text-xl font-bold text-white">F1 Replay Timing</h1>
+            <div className="w-16 h-16 rounded-xl overflow-hidden border border-f1-border shadow-f1-glow mx-auto mb-4">
+              <img src="/logo.png" alt="F1 Replay" className="w-full h-full object-cover" />
+            </div>
+            <h1 className="text-2xl font-black text-white f1-font tracking-wide">F1 REPLAY TIMING</h1>
           </div>
 
-          <div className="bg-f1-card border border-f1-border rounded-xl p-6">
-            <h2 className="text-sm font-bold text-red-400 mb-3">Cannot connect to backend</h2>
-            <p className="text-sm text-f1-muted mb-3">
+          <div className="carbon-card border border-f1-border rounded-xl p-6 shadow-2xl f1-stripe-top">
+            <h2 className="text-xs font-black text-f1-red uppercase tracking-wider mb-3 f1-font flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-f1-red animate-pulse"></span>
+              Backend Telemetry Disconnected
+            </h2>
+            <p className="text-xs text-f1-muted font-semibold mb-3">
               The frontend failed to reach the API server at:
             </p>
-            <code className="block text-xs text-white bg-f1-dark border border-f1-border rounded px-3 py-2 mb-4 break-all">
+            <code className="block text-xs text-white bg-[#0D0E14] border border-f1-border rounded-lg px-3 py-2 mb-4 break-all font-mono">
               {API_URL || (typeof window !== "undefined" ? window.location.origin : "(same origin)")}
             </code>
-            <div className="text-xs text-f1-muted space-y-2">
-              <p>Common causes:</p>
+            <div className="text-xs text-f1-muted space-y-2 font-medium">
+              <p className="font-bold text-white">Troubleshooting Steps:</p>
               <ul className="list-disc list-inside space-y-1 ml-1">
-                <li>The backend container is still starting up</li>
-                <li>
-                  <code className="text-white">NEXT_PUBLIC_API_URL</code> in your
-                  docker-compose.yml is set to a URL that isn&apos;t reachable from
-                  your browser
-                </li>
-                <li>
-                  If behind a reverse proxy, this URL must be the address your browser
-                  uses to reach the backend, not an internal Docker address
-                </li>
+                <li>Backend container is initializing</li>
+                <li>Verify <code className="text-f1-red">NEXT_PUBLIC_API_URL</code> environment variable</li>
+                <li>Check Docker network routing or proxy configuration</li>
               </ul>
             </div>
             <button
               onClick={checkAuth}
-              className="w-full mt-5 px-4 py-2 bg-f1-red text-white text-sm font-bold rounded hover:bg-red-700 transition-colors"
+              className="w-full mt-6 f1-slant px-4 py-2.5 bg-gradient-to-r from-[#E10600] to-[#FF2A2A] text-white text-xs font-black uppercase tracking-widest rounded-lg hover:brightness-110 transition-all shadow-f1-red"
             >
-              Retry
+              <span className="f1-slant-unskew">Reconnect Telemetry</span>
             </button>
           </div>
         </div>
@@ -156,16 +157,21 @@ export default function AuthGate({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="min-h-screen bg-f1-dark flex items-center justify-center px-4">
+    <div className="min-h-screen carbon-bg flex items-center justify-center px-4">
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
-          <img src="/logo.png" alt="F1 Replay" className="w-16 h-16 rounded-lg mx-auto mb-4" />
-          <h1 className="text-xl font-bold text-white">F1 Replay Timing</h1>
+          <div className="w-20 h-20 rounded-2xl overflow-hidden border-2 border-f1-border shadow-f1-glow mx-auto mb-4 hover:scale-105 transition-transform">
+            <img src="/logo.png" alt="F1 Replay" className="w-full h-full object-cover" />
+          </div>
+          <h1 className="text-3xl font-black text-white f1-font tracking-wide flex items-center justify-center gap-2">
+            <span className="text-f1-red">F1</span> REPLAY TIMING
+          </h1>
+          <p className="text-xs text-f1-muted font-bold uppercase tracking-widest mt-1">Paddock Telemetry Gate</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="bg-f1-card border border-f1-border rounded-xl p-6">
-          <label htmlFor="passphrase" className="block text-sm font-bold text-f1-muted mb-2">
-            Enter passphrase to continue
+        <form onSubmit={handleSubmit} className="carbon-card border border-f1-border rounded-xl p-6 shadow-2xl f1-stripe-top">
+          <label htmlFor="passphrase" className="block text-xs font-black text-f1-muted uppercase tracking-wider mb-2.5 f1-font">
+            Security Passphrase Required
           </label>
           <div className="relative">
             <input
@@ -174,13 +180,13 @@ export default function AuthGate({ children }: { children: React.ReactNode }) {
               value={passphrase}
               onChange={(e) => setPassphrase(e.target.value)}
               autoFocus
-              className="w-full px-3 py-2 pr-10 bg-f1-dark border border-f1-border rounded text-white text-sm focus:outline-none focus:border-f1-red transition-colors"
-              placeholder="Passphrase"
+              className="w-full px-3.5 py-2.5 pr-10 bg-[#0D0E14] border border-f1-border rounded-lg text-white text-sm focus:outline-none focus:border-f1-red focus:ring-1 focus:ring-f1-red transition-all font-mono"
+              placeholder="Enter Paddock Passcode"
             />
             <button
               type="button"
               onClick={() => setShowPassphrase(!showPassphrase)}
-              className="absolute right-2 top-1/2 -translate-y-1/2 text-f1-muted hover:text-white transition-colors"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-f1-muted hover:text-white transition-colors"
               tabIndex={-1}
             >
               {showPassphrase ? (
@@ -196,14 +202,19 @@ export default function AuthGate({ children }: { children: React.ReactNode }) {
             </button>
           </div>
           {error && (
-            <p className="text-red-400 text-xs mt-2">{error}</p>
+            <p className="text-f1-red text-xs font-bold mt-2 uppercase tracking-wide flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-f1-red"></span>
+              {error}
+            </p>
           )}
           <button
             type="submit"
             disabled={submitting || !passphrase}
-            className="w-full mt-4 px-4 py-2 bg-f1-red text-white text-sm font-bold rounded hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full mt-5 f1-slant px-4 py-2.5 bg-gradient-to-r from-[#E10600] to-[#FF2A2A] text-white text-xs font-black uppercase tracking-widest rounded-lg hover:brightness-110 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-f1-red"
           >
-            {submitting ? "Checking..." : "Continue"}
+            <span className="f1-slant-unskew">
+              {submitting ? "Authenticating..." : "Access Pit Wall"}
+            </span>
           </button>
         </form>
       </div>

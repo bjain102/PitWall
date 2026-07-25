@@ -236,7 +236,7 @@ export default function LivePage() {
     if (isRace && settings.showGridChange) w += 24;
     if (!isRace && settings.showBestLapTime) w += 60; // best lap time column
     if (settings.showGapToLeader) w += 56;
-    if (isQualifying && settings.showSectors) w += 36;
+    if (!isRace && settings.showSectors) w += 36;
     if (isRace && settings.showPitStops) w += 24;
     if (isRace && settings.showTyreHistory) w += 36;
     if (settings.showTyreType) w += 24;
@@ -357,7 +357,7 @@ export default function LivePage() {
                 <div
                   ref={rcPanelRef}
                   className={`z-20 w-80 bg-f1-card/95 border border-f1-border rounded-lg shadow-xl backdrop-blur-sm overflow-hidden flex flex-col ${
-                    rcPanelSize === "sm" ? "max-h-[25%]" : rcPanelSize === "md" ? "max-h-[50%]" : "max-h-[85%]"
+                    rcPanelSize === "sm" ? "h-[140px]" : rcPanelSize === "md" ? "h-[280px]" : "h-[460px] max-h-[85vh]"
                   }`}
                   style={rcPosition
                     ? { position: "fixed", left: rcPosition.x, top: rcPosition.y }
@@ -406,7 +406,7 @@ export default function LivePage() {
                     {(live.rcMessages || []).length === 0 ? (
                       <p className="text-f1-muted text-xs p-3 text-center">No race control messages yet</p>
                     ) : (
-                      (rcPanelSize === "sm" ? (live.rcMessages || []).slice(0, 1) : (live.rcMessages || [])).map((rc, i) => {
+                      (live.rcMessages || []).map((rc, i) => {
                         const isInvestigation = rc.message.toUpperCase().includes("INVESTIGATION") || rc.message.toUpperCase().includes("NOTED");
                         const isPenalty = rc.message.toUpperCase().includes("PENALTY") && !rc.message.toUpperCase().includes("NO FURTHER");
                         const isCleared = rc.message.toUpperCase().includes("NO FURTHER") || rc.message.toUpperCase().includes("NO INVESTIGATION");
@@ -431,16 +431,7 @@ export default function LivePage() {
                 </div>
               )}
 
-              {/* Live positions unavailable overlay */}
-              <div className="absolute inset-0 z-10 flex items-end justify-center pointer-events-none pb-4">
-                <div className="bg-f1-card/90 border border-f1-border rounded-lg px-4 py-2.5 backdrop-blur-sm text-center max-w-sm">
-                  <p className="text-f1-muted text-xs leading-relaxed">
-                    Driver track positions and telemetry are not available during live sessions.
-                    These will be available in replay once the session is processed.
-                  </p>
-                </div>
-              </div>
-
+              
               {trackPoints.length > 0 ? (
                 <TrackCanvas
                   trackPoints={trackPoints}
@@ -522,7 +513,7 @@ export default function LivePage() {
 
         {/* Leaderboard section */}
         {settings.showLeaderboard && (
-          <div className={`flex-shrink-0 ${isMobile ? "" : "border-l"} border-f1-border`} style={{ width: isMobile ? "100%" : Math.ceil(leaderboardWidth * leaderboardScale) }}>
+          <div className={`flex-shrink-0 ${isMobile ? "" : "border-l"} border-f1-border`} style={{ width: isMobile ? "100%" : Math.max(320, leaderboardWidth), minWidth: isMobile ? "100%" : Math.max(320, leaderboardWidth) }}>
             {/* Mobile section header */}
             {isMobile && (
               <button

@@ -4,6 +4,17 @@ export const TYRE_COLORS: Record<string, string> = {
   HARD: "#FFFFFF",
   INTERMEDIATE: "#39B54A",
   WET: "#0067FF",
+  S: "#FF3333",
+  M: "#FFC906",
+  H: "#FFFFFF",
+  I: "#39B54A",
+  W: "#0067FF",
+  C5: "#FF3333",
+  C4: "#FF3333",
+  C3: "#FFC906",
+  C2: "#FFFFFF",
+  C1: "#FFFFFF",
+  C0: "#FFFFFF",
 };
 
 export const TYRE_SHORT: Record<string, string> = {
@@ -12,6 +23,17 @@ export const TYRE_SHORT: Record<string, string> = {
   HARD: "H",
   INTERMEDIATE: "I",
   WET: "W",
+  S: "S",
+  M: "M",
+  H: "H",
+  I: "I",
+  W: "W",
+  C5: "S",
+  C4: "S",
+  C3: "M",
+  C2: "H",
+  C1: "H",
+  C0: "H",
 };
 
 export const SPEED_OPTIONS = [0.5, 1, 2, 5, 10, 20];

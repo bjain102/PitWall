@@ -93,32 +93,9 @@ export default function Leaderboard({ drivers, highlightedDrivers, onDriverClick
   const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    function updateScale() {
-      if (compact) {
-        setScale(1);
-        onScaleChange?.(1);
-        return;
-      }
-      if (!containerRef.current || !contentRef.current) return;
-      // On mobile (< 640px), don't scale - let it scroll instead
-      if (window.innerWidth < 640) {
-        setScale(1);
-        onScaleChange?.(1);
-        return;
-      }
-      const containerH = containerRef.current.clientHeight;
-      const contentH = contentRef.current.scrollHeight;
-      let newScale = 1;
-      if (contentH > containerH && contentH > 0) {
-        newScale = Math.max(0.55, containerH / contentH);
-      }
-      setScale(newScale);
-      onScaleChange?.(newScale);
-    }
-    updateScale();
-    window.addEventListener("resize", updateScale);
-    return () => window.removeEventListener("resize", updateScale);
-  }, [drivers.length, settings.showGapToLeader, settings.showBestLapTime, settings.showLastLapTime, isRace, compact, onScaleChange]);
+    setScale(1);
+    onScaleChange?.(1);
+  }, [compact, onScaleChange]);
 
   const sorted = [...drivers].sort(
     (a, b) => (a.position ?? 999) - (b.position ?? 999),
@@ -127,8 +104,8 @@ export default function Leaderboard({ drivers, highlightedDrivers, onDriverClick
   const intervals = isRace && showInterval ? computeIntervals(sorted) : null;
 
   return (
-    <div ref={containerRef} className={`bg-f1-card border-f1-border h-full ${compact ? "overflow-y-auto" : "overflow-y-auto sm:overflow-hidden"}`}>
-      <div ref={contentRef} style={{ transform: `scale(${scale})`, transformOrigin: "top left", width: `${100 / scale}%` }}>
+    <div ref={containerRef} className="bg-f1-card border-f1-border h-full overflow-y-auto">
+      <div>
 
       <div className="divide-y divide-f1-border/50">
         {sorted.map((drv) => {
@@ -158,45 +135,47 @@ export default function Leaderboard({ drivers, highlightedDrivers, onDriverClick
             <button
               key={drv.abbr}
               onClick={() => onDriverClick(drv.abbr)}
-              className={`w-full flex items-center px-1 sm:px-2 py-1 hover:bg-white/5 transition-colors text-left ${
-                isHighlighted ? "bg-white/10" : ""
+              className={`w-full flex items-center px-1.5 sm:px-2.5 py-1.5 hover:bg-white/10 transition-all border-b border-f1-border/40 text-left ${
+                isHighlighted ? "bg-f1-red/20 border-l-2 border-l-f1-red" : "even:bg-[#12141F] odd:bg-[#161927]"
               } ${drv.no_timing ? "opacity-40" : ""}`}
             >
-              {/* Position - 20px mobile, 24px desktop */}
-              {isLeader ? (
-                <span className="w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center rounded bg-f1-red text-white text-[14px] sm:text-sm font-extrabold flex-shrink-0">
-                  {drv.position}
-                </span>
-              ) : (
-                <span className="w-5 sm:w-6 text-[14px] sm:text-sm font-extrabold text-white text-right flex-shrink-0">
-                  {drv.position ?? "-"}
-                </span>
-              )}
+              {/* Position - slanted F1 broadcast style */}
+              <div className="w-6 sm:w-7 flex-shrink-0 flex items-center justify-center">
+                {isLeader ? (
+                  <span className="w-5 h-5 sm:w-6 sm:h-6 f1-slant bg-f1-red text-white text-[13px] sm:text-xs font-black flex items-center justify-center shadow-f1-red">
+                    <span className="f1-slant-unskew">{drv.position}</span>
+                  </span>
+                ) : (
+                  <span className="w-5 h-5 sm:w-6 sm:h-6 f1-slant bg-[#1F2334] border border-f1-border text-white text-[12px] sm:text-xs font-bold flex items-center justify-center">
+                    <span className="f1-slant-unskew">{drv.position ?? "-"}</span>
+                  </span>
+                )}
+              </div>
 
-              {/* Team color bar - 4px + 4px margin */}
+              {/* Team color bar - glowing vertical indicator */}
               <span
-                className="w-1 h-6 rounded-sm flex-shrink-0 mx-1"
-                style={{ backgroundColor: drv.color }}
+                className="w-1.5 h-5 rounded-full flex-shrink-0 mx-1.5 shadow-sm"
+                style={{ backgroundColor: drv.color, boxShadow: `0 0 8px ${drv.color}80` }}
               />
 
-              {/* Team abbreviation - 28px */}
+              {/* Team abbreviation */}
               {settings.showTeamAbbr && !mobileTeamAbbrHidden && (
-                <span className="w-7 text-[10px] font-bold text-f1-muted flex-shrink-0" title="Team">
+                <span className="w-7 text-[10px] font-bold text-f1-muted flex-shrink-0 uppercase tracking-tight f1-font" title="Team">
                   {TEAM_ABBR[drv.team] || drv.team?.slice(0, 3).toUpperCase()}
                 </span>
               )}
 
-              {/* Driver abbreviation - 30px */}
-              <span className="w-[30px] text-sm font-extrabold text-white flex-shrink-0">
+              {/* Driver abbreviation - 32px */}
+              <span className="w-[32px] text-sm sm:text-base font-black text-white flex-shrink-0 f1-font tracking-wide">
                 {drv.abbr}
               </span>
 
               {/* Pit indicator (non-race only) */}
               {!isRace && (
-                <span className="w-[13px] ml-2 -mr-1 flex-shrink-0 flex items-center justify-center">
+                <span className="w-[14px] ml-1.5 -mr-0.5 flex-shrink-0 flex items-center justify-center">
                   {drv.in_pit && (
-                    <span className="w-[13px] h-[13px] bg-white rounded-[2px] flex items-center justify-center">
-                      <span className="text-[8px] font-extrabold text-black leading-none">P</span>
+                    <span className="w-[14px] h-[14px] bg-white rounded-[2px] flex items-center justify-center shadow">
+                      <span className="text-[9px] font-black text-black leading-none">P</span>
                     </span>
                   )}
                 </span>
@@ -373,11 +352,11 @@ export default function Leaderboard({ drivers, highlightedDrivers, onDriverClick
                       ? sec.color === "purple" ? "bg-purple-500"
                       : sec.color === "green" ? "bg-green-500"
                       : "bg-yellow-500"
-                      : "bg-white/15";
+                      : "bg-[#222538] border border-white/20";
                     return (
                       <span
                         key={sn}
-                        className={`w-[6px] h-[14px] rounded-[1px] ${bg}`}
+                        className={`w-[7px] h-[14px] rounded-[1px] ${bg}`}
                       />
                     );
                   })}
@@ -475,12 +454,12 @@ export default function Leaderboard({ drivers, highlightedDrivers, onDriverClick
                   <span
                     className="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-extrabold leading-none border-2"
                     style={{
-                      borderColor: tyreColor || "#555",
-                      color: tyreColor || "#555",
+                      borderColor: tyreColor || (drv.in_pit ? "#EAB308" : "#6B7280"),
+                      color: tyreColor || (drv.in_pit ? "#EAB308" : "#9CA3AF"),
                       backgroundColor: "transparent",
                     }}
                   >
-                    {tyreLabel || ""}
+                    {tyreLabel || (drv.in_pit ? "P" : "?")}
                   </span>
                 </span>
               )}

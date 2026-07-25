@@ -1,11 +1,13 @@
-<h1><img src="https://github.com/user-attachments/assets/158de3d0-8bd5-41a5-a34d-a3a92471cf96" width="50" align="absmiddle" /> F1 Replay Timing</h1>
+<h1><img src="https://github.com/user-attachments/assets/158de3d0-8bd5-41a5-a34d-a3a92471cf96" width="50" align="absmiddle" /> F1 Replay Timing (Enhanced Edition)</h1>
 
+> **Credit & Attribution**: This project is an enhanced edition built upon the excellent open-source base by [adn8naiagent/F1ReplayTiming](https://github.com/adn8naiagent/F1ReplayTiming).
 
-
+### 🚀 Key Enhancements Added in This Version:
+- **Real-Time Live Telemetry Extrapolation Engine**: Solved the unauthenticated live GPS stream restriction by calculating real-time driver progress from live SignalR sector passings (`S1`, `S2`, `S3`) and FastF1 track coordinate splines.
+- **F1 Broadcast TV UI Redesign**: Overhauled timing towers with Barlow Condensed typography, slanted broadcast position pills, team color bars, tyre compound badges (`S`, `M`, `H`), and responsive weather widgets.
+- **AI Pair-Programmed with Google Antigravity**: Built and refactored using Google Antigravity AI.
 
 https://github.com/user-attachments/assets/952b8634-2470-46d9-96e2-67a820459a49
-
-
 
 A web app for watching Formula 1 sessions with real timing data, car positions on track, driver telemetry, and more - both live during race weekends and as replays of past sessions. Built with Next.js and FastAPI.
 

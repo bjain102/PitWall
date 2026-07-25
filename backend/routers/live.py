@@ -95,8 +95,11 @@ class LiveSession:
             self._mode = "replayer"
         elif use_signalr:
             from services.live_signalr import LiveSignalRClient
+            from services.openf1_live import OpenF1LiveFetcher
             self._signalr_client = LiveSignalRClient()
+            self._openf1_fetcher = OpenF1LiveFetcher()
             self._task = asyncio.create_task(self._run_signalr())
+            asyncio.create_task(self._openf1_fetcher.start(self._on_message))
             self._mode = "signalr"
 
         self._started = True
@@ -165,6 +168,8 @@ class LiveSession:
             self._replayer.stop()
         if self._signalr_client:
             await self._signalr_client.disconnect()
+        if hasattr(self, "_openf1_fetcher") and self._openf1_fetcher:
+            await self._openf1_fetcher.stop()
         if self._task:
             self._task.cancel()
             try:

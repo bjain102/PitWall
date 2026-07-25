@@ -2,9 +2,9 @@
 
 export default function FeaturesPage() {
   return (
-    <div className="min-h-screen bg-f1-dark">
-      <div className="bg-f1-card border-b border-f1-border">
-        <div className="max-w-3xl mx-auto px-6 py-8 flex items-center gap-4">
+    <div className="min-h-screen carbon-bg text-f1-text">
+      <div className="bg-[#10121A] border-b border-f1-border relative f1-stripe-top shadow-lg">
+        <div className="max-w-3xl mx-auto px-6 py-6 flex items-center gap-4">
           <button
             onClick={() => {
               if (window.opener || window.history.length <= 1) {
@@ -13,23 +13,28 @@ export default function FeaturesPage() {
                 window.location.href = "/";
               }
             }}
-            className="text-f1-muted hover:text-white transition-colors"
+            className="w-9 h-9 rounded-lg bg-[#181B26] border border-f1-border flex items-center justify-center text-f1-muted hover:text-white hover:border-f1-red/50 transition-all"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
           </button>
-          <h1 className="text-2xl font-bold text-white">Features</h1>
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-black text-white f1-font tracking-wide">
+              <span className="text-f1-red">F1</span> REPLAY TIMING FEATURES
+            </h1>
+            <p className="text-xs text-f1-muted uppercase tracking-widest font-semibold">User Guide & Telemetry Capability Overview</p>
+          </div>
         </div>
       </div>
 
-      <div className="max-w-3xl mx-auto px-6 py-12 space-y-10">
+      <div className="max-w-3xl mx-auto px-6 py-12 space-y-8">
 
         {/* Track Map & Car Positions */}
-        <section className="bg-f1-card border border-f1-border rounded-xl p-6">
-          <h2 className="text-lg font-bold text-white mb-1">Track Map</h2>
-          <p className="text-xs font-bold text-f1-red uppercase tracking-wider mb-3">All sessions</p>
-          <p className="text-f1-text leading-relaxed">
+        <section className="carbon-card border border-f1-border rounded-xl p-6 shadow-xl f1-stripe-top">
+          <h2 className="text-lg font-black text-white uppercase tracking-wider mb-1 f1-font">Track Map</h2>
+          <p className="text-xs font-black text-f1-red uppercase tracking-widest mb-3 f1-font">All Sessions</p>
+          <p className="text-sm text-f1-text leading-relaxed font-medium">
             A track map shows car positions derived from GPS telemetry data processed via FastF1,
             updating every 0.5 seconds with smooth interpolation. Click any driver on the leaderboard
             or map to highlight them. The track orientation matches the conventional broadcast view

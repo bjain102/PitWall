@@ -251,6 +251,7 @@ class LiveStateManager:
 
         # Overall sector bests (sector index 0-2 -> best time)
         self._overall_sector_bests: dict[int, float] = {}
+        self._last_tick_time: float = time.monotonic()
 
     # ------------------------------------------------------------------
     # Driver helpers
@@ -459,12 +460,14 @@ class LiveStateManager:
                     del existing[later]
                     drv._sector_times.pop(later - 1, None)
 
-            # Track S3 completion for 5-second linger
-            if sector_num == 3:
-                drv._s3_complete_time = time.monotonic()
-            elif sector_num == 1:
-                # Starting new lap — reset S3 timer
-                drv._s3_complete_time = None
+            # Fallback track position extrapolation from sector completion
+            if self._track_xy is not None and len(self._track_xy) > 0:
+                rel_dist = 0.33 if sector_num == 1 else (0.66 if sector_num == 2 else 0.0)
+                idx = int(rel_dist * (len(self._track_xy) - 1))
+                drv.x = float(self._track_xy[idx, 0])
+                drv.y = float(self._track_xy[idx, 1])
+                drv.relative_distance = rel_dist
+                drv.on_track = True
 
         drv.sectors = [existing[k] for k in sorted(existing)] if existing else None
 
@@ -863,6 +866,38 @@ class LiveStateManager:
         """
         SECTOR_LINGER = 5.0
         now = time.monotonic()
+        dt = min(1.0, max(0.0, now - getattr(self, "_last_tick_time", now)))
+        self._last_tick_time = now
+
+        # Update real-time track progress for drivers when raw GPS is unavailable
+        if self._track_xy is not None and len(self._track_xy) > 0:
+            track_len = len(self._track_xy)
+            for drv in self._drivers.values():
+                if not drv.abbr or drv.retired:
+                    continue
+                if drv.in_pit:
+                    drv.on_track = False
+                    continue
+                # Initial positioning based on grid/standing position if (x,y) uninitialized
+                if drv.x == 0.0 and drv.y == 0.0:
+                    pos = drv.position or 20
+                    drv.relative_distance = max(0.0, min(1.0, 1.0 - (pos / 22.0)))
+                elif self._status != "red":
+                    # Advance track distance at estimated lap pace (~80s)
+                    lap_pace = 80.0
+                    if drv.best_lap_time:
+                        try:
+                            parts = drv.best_lap_time.split(":")
+                            if len(parts) == 2:
+                                lap_pace = float(parts[0]) * 60 + float(parts[1])
+                        except Exception:
+                            pass
+                    drv.relative_distance = (drv.relative_distance + (dt / max(50.0, lap_pace))) % 1.0
+
+                idx = int(drv.relative_distance * (track_len - 1))
+                drv.x = float(self._track_xy[idx, 0])
+                drv.y = float(self._track_xy[idx, 1])
+                drv.on_track = True
 
         drivers_list: list[dict[str, Any]] = []
         for drv in self._drivers.values():

@@ -11,19 +11,25 @@ from services.process import ensure_session_data_ws
 
 def _log_memory():
     """Log current process memory usage."""
+    mem_mb = 0
+
     try:
-        # Works on Linux (Docker) — reads from /proc
+        # Linux (Docker): read from /proc
         with open(f"/proc/{os.getpid()}/status") as f:
             for line in f:
                 if line.startswith("VmRSS:"):
                     mem_mb = int(line.split()[1]) / 1024
                     break
-            else:
-                mem_mb = 0
+
     except FileNotFoundError:
-        # macOS fallback
-        import resource
-        mem_mb = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / (1024 * 1024)
+        # macOS / Windows fallback
+        try:
+            import resource
+            mem_mb = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / (1024 * 1024)
+        except ImportError:
+            # Windows: resource module not available
+            mem_mb = 0
+
     cache_sessions = len(_replay_cache)
     return f"process: {mem_mb:.0f}MB, cached sessions: {cache_sessions}"
 

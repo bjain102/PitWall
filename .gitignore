@@ -18,8 +18,10 @@ backend/data/sessions/
 .env
 .env.local
 
-# OS
+# OS & Local Scripts
 .DS_Store
+*.bat
+*.cmd
 
 # Planning & internal docs
 /docs/

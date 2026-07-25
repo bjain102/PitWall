@@ -524,7 +524,7 @@ export default function ReplayPage() {
                 <div
                   ref={rcPanelRef}
                   className={`z-20 w-80 bg-f1-card/95 border border-f1-border rounded-lg shadow-xl backdrop-blur-sm overflow-hidden flex flex-col ${
-                    rcPanelSize === "sm" ? "max-h-[25%]" : rcPanelSize === "md" ? "max-h-[50%]" : "max-h-[85%]"
+                    rcPanelSize === "sm" ? "h-[140px]" : rcPanelSize === "md" ? "h-[280px]" : "h-[460px] max-h-[85vh]"
                   }`}
                   style={rcPosition
                     ? { position: "fixed", left: rcPosition.x, top: rcPosition.y }
@@ -571,9 +571,8 @@ export default function ReplayPage() {
                   </div>
                   <div className="flex-1 overflow-y-auto divide-y divide-f1-border/50">
                     {(() => {
-                      const allMsgs = replay.frame?.rc_messages || [];
-                      const msgs = rcPanelSize === "sm" ? allMsgs.slice(0, 1) : allMsgs;
-                      if (allMsgs.length === 0) return <p className="text-f1-muted text-xs p-3 text-center">No race control messages yet</p>;
+                      const msgs = replay.frame?.rc_messages || [];
+                      if (msgs.length === 0) return <p className="text-f1-muted text-xs p-3 text-center">No race control messages yet</p>;
                       return msgs.map((rc, i) => {
                         const upper = rc.message.toUpperCase();
                         const isInvestigation = upper.includes("INVESTIGATION") || upper.includes("NOTED");
@@ -893,7 +892,7 @@ export default function ReplayPage() {
               </div>
             )}
 
-            <div style={{ width: isMobile ? "100%" : Math.ceil(leaderboardWidth * leaderboardScale) }}>
+            <div style={{ width: isMobile ? "100%" : Math.max(320, leaderboardWidth), minWidth: isMobile ? "100%" : Math.max(320, leaderboardWidth) }}>
               {/* Mobile section header */}
               {isMobile && (
                 <button

@@ -58,9 +58,9 @@ export function drawTrack(
 ) {
   if (points.length === 0) return;
 
-  const padX = 40;
-  const padTop = 60;
-  const padBottom = 90;
+  const padX = Math.min(40, width * 0.08);
+  const padTop = Math.min(60, height * 0.12);
+  const padBottom = Math.min(90, height * 0.15);
   const w = width - padX * 2;
   const h = height - padTop - padBottom;
 
@@ -208,7 +208,10 @@ export function drawTrack(
       const lx = screenX + Math.cos(labelRad) * labelOffset;
       const ly = screenY - Math.sin(labelRad) * labelOffset;
 
-      const label = c.letter ? `${c.number}${c.letter}` : `${c.number}`;
+      // Skip FIA sub-turn sensor markers (e.g. 1A, 12A) for clean broadcast turn numbers
+      if (c.letter) continue;
+
+      const label = `${c.number}`;
 
       ctx.fillStyle = "rgba(255, 255, 255, 0.4)";
       ctx.fillText(label, lx, ly);
@@ -285,9 +288,9 @@ export function drawDrivers(
 ) {
   if (trackPoints.length === 0) return;
 
-  const padX = 40;
-  const padTop = 60;
-  const padBottom = 90;
+  const padX = Math.min(40, width * 0.08);
+  const padTop = Math.min(60, height * 0.12);
+  const padBottom = Math.min(90, height * 0.15);
   const w = width - padX * 2;
   const h = height - padTop - padBottom;
 
