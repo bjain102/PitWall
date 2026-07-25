@@ -30,7 +30,7 @@ export default function PiPWindow({
       return;
     }
 
-    pipWin.document.title = "F1 Replay — PiP";
+    pipWin.document.title = "PitWall — PiP";
     pipWin.document.body.style.margin = "0";
     pipWin.document.body.style.padding = "0";
     pipWin.document.body.style.backgroundColor = "#15151e";

@@ -24,7 +24,7 @@ export default function AboutPage() {
             Disclaimer
           </h2>
           <p className="text-sm text-f1-text leading-relaxed font-medium">
-            F1 Replay Timing, FastF1, and this website are unofficial and are not associated in any way with the
+            PitWall, FastF1, and this website are unofficial and are not associated in any way with the
             Formula 1 companies. F1, FORMULA ONE, FORMULA 1, FIA FORMULA ONE WORLD CHAMPIONSHIP, GRAND PRIX and
             related marks are trade marks of Formula One Licensing B.V.
           </p>
@@ -33,7 +33,7 @@ export default function AboutPage() {
         <div className="carbon-card border border-f1-border rounded-xl p-6 shadow-xl">
           <h2 className="text-base font-black text-white uppercase tracking-wider mb-3 f1-font">What is this?</h2>
           <p className="text-sm text-f1-text leading-relaxed font-medium">
-            F1 Replay Timing is an independent project that lets you replay past Formula 1 sessions
+            PitWall is an independent project that lets you follow live and replay past Formula 1 sessions
             with track visualisation, driver positions, and timing data. It is built purely for educational and
             entertainment purposes.
           </p>

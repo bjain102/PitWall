@@ -355,11 +355,11 @@ export default function SessionPicker() {
       <div className="bg-[#10121A] border-b border-f1-border relative f1-stripe-top shadow-xl">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8 flex items-center gap-4 sm:gap-6">
           <div className="w-12 h-12 sm:w-[72px] sm:h-[72px] rounded-xl overflow-hidden border border-f1-border/80 shadow-f1-glow flex-shrink-0">
-            <img src="/logo.png" alt="F1 Replay" className="w-full h-full object-cover" />
+            <img src="/logo.png" alt="PitWall" className="w-full h-full object-cover" />
           </div>
           <div className="flex-1 min-w-0">
             <h1 className="text-2xl sm:text-4xl font-black text-white mb-1 f1-font tracking-wide flex items-center gap-2.5">
-              <span className="text-f1-red">F1</span> REPLAY TIMING
+              <span className="text-f1-red">Pit</span>Wall
             </h1>
             <p className="text-f1-muted text-xs sm:text-sm font-semibold uppercase tracking-wider">
               Race Replay & Pit Wall Telemetry Visualizer

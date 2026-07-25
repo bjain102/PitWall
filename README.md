@@ -1,6 +1,6 @@
-<h1><img src="https://github.com/user-attachments/assets/158de3d0-8bd5-41a5-a34d-a3a92471cf96" width="50" align="absmiddle" /> F1 Replay Timing (Enhanced Edition)</h1>
+<h1><img src="https://github.com/user-attachments/assets/158de3d0-8bd5-41a5-a34d-a3a92471cf96" width="50" align="absmiddle" /> PitWall</h1>
 
-> **Credit & Attribution**: This project is an enhanced edition built upon the excellent open-source base by [adn8naiagent/F1ReplayTiming](https://github.com/adn8naiagent/F1ReplayTiming).
+> **Credit & Attribution**: This project is an enhanced edition built upon the excellent open-source base by [adn8naiagent/F1ReplayTiming](https://github.com/adn8naiagent/F1ReplayTiming), originally named F1 Replay Timing.
 
 ### 🚀 Key Enhancements Added in This Version:
 - **Real-Time Live Telemetry Extrapolation Engine**: Solved the unauthenticated live GPS stream restriction by calculating real-time driver progress from live SignalR sector passings (`S1`, `S2`, `S3`) and FastF1 track coordinate splines.

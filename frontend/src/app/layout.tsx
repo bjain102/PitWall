@@ -18,8 +18,8 @@ const titilliumWeb = Titillium_Web({
 });
 
 export const metadata: Metadata = {
-  title: "F1 Replay Timing",
-  description: "Formula 1 race replay and telemetry visualization",
+  title: "PitWall",
+  description: "Formula 1 live timing, race replay, and telemetry visualization",
   icons: {
     icon: "/favicon.png",
   },

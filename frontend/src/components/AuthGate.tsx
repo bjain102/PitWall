@@ -116,9 +116,9 @@ export default function AuthGate({ children }: { children: React.ReactNode }) {
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
             <div className="w-16 h-16 rounded-xl overflow-hidden border border-f1-border shadow-f1-glow mx-auto mb-4">
-              <img src="/logo.png" alt="F1 Replay" className="w-full h-full object-cover" />
+              <img src="/logo.png" alt="PitWall" className="w-full h-full object-cover" />
             </div>
-            <h1 className="text-2xl font-black text-white f1-font tracking-wide">F1 REPLAY TIMING</h1>
+            <h1 className="text-2xl font-black text-white f1-font tracking-wide">PITWALL</h1>
           </div>
 
           <div className="carbon-card border border-f1-border rounded-xl p-6 shadow-2xl f1-stripe-top">
@@ -161,10 +161,10 @@ export default function AuthGate({ children }: { children: React.ReactNode }) {
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
           <div className="w-20 h-20 rounded-2xl overflow-hidden border-2 border-f1-border shadow-f1-glow mx-auto mb-4 hover:scale-105 transition-transform">
-            <img src="/logo.png" alt="F1 Replay" className="w-full h-full object-cover" />
+            <img src="/logo.png" alt="PitWall" className="w-full h-full object-cover" />
           </div>
           <h1 className="text-3xl font-black text-white f1-font tracking-wide flex items-center justify-center gap-2">
-            <span className="text-f1-red">F1</span> REPLAY TIMING
+            <span className="text-f1-red">Pit</span>Wall
           </h1>
           <p className="text-xs text-f1-muted font-bold uppercase tracking-widest mt-1">Paddock Telemetry Gate</p>
         </div>
