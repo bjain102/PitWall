@@ -96,7 +96,7 @@ The app serves everything (frontend, API, WebSocket) from a single port. Point y
 ```yaml
 services:
   f1timing:
-    image: ghcr.io/adn8naiagent/f1replaytiming:latest
+    image: ghcr.io/bjain102/f1replaytiming:latest
     env_file: .env
     volumes:
       - f1data:/data
@@ -148,11 +148,13 @@ No other configuration required. The app uses relative URLs, so it works on any 
 
 ### Pre-built Docker images
 
+> Note: the image below is published automatically when a GitHub Release is cut on this repo. If you haven't published a release yet, it won't exist — build from source instead (see Quick start above).
+
 You can also use pre-built images instead of building from source:
 
 ```bash
 # Pull and run directly
-docker run -d -p 8000:8000 --env-file .env -v f1data:/data -v f1cache:/data/fastf1-cache ghcr.io/adn8naiagent/f1replaytiming:latest
+docker run -d -p 8000:8000 --env-file .env -v f1data:/data -v f1cache:/data/fastf1-cache ghcr.io/bjain102/f1replaytiming:latest
 ```
 
 Or with docker-compose:
@@ -160,7 +162,7 @@ Or with docker-compose:
 ```yaml
 services:
   f1timing:
-    image: ghcr.io/adn8naiagent/f1replaytiming:latest
+    image: ghcr.io/bjain102/f1replaytiming:latest
     ports:
       - "${PORT:-8000}:8000"
     env_file: .env
