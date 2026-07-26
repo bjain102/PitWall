@@ -14,7 +14,7 @@ A web app for watching Formula 1 sessions with real timing data, car positions o
 ## Features
 
 - **Live timing** (Beta) - connect to live F1 sessions during race weekends with real-time data from the F1 SignalR stream, including a broadcast delay slider and automatic detection of post-session replays
-- **Track map** with real-time car positions from GPS telemetry, updating every 0.5 seconds with smooth interpolation, marshal sector flags, and toggleable corner numbers
+- **Track map** with real-time car positions, updating every 0.5 seconds with smooth interpolation, marshal sector flags, and toggleable corner numbers. In replay mode this comes from real GPS telemetry; in live mode (where GPS isn't available without an F1 TV login) positions are extrapolated from live sector-crossing times instead
 - **Driver leaderboard** showing position, gap to leader, interval, last lap time, sector indicators (qualifying/practice), tyre compound and age, tyre history, pit stop count and live pit timer, grid position changes, fastest lap indicator, investigation/penalty status, and sub-1-second interval highlighting
 - **Race control messages** - steward decisions, investigations, penalties, track limits, and flag changes displayed in a draggable overlay on the track map with optional sound notifications
 - **Pit position prediction** estimates where a driver would rejoin if they pitted now, with predicted gap ahead and behind, using precomputed pit loss times per circuit with Safety Car and Virtual Safety Car adjustments
@@ -50,7 +50,7 @@ Requires [Docker](https://docs.docker.com/get-docker/) and Docker Compose.
 
 ```bash
 git clone <repo-url>
-cd F1timing
+cd PitWall
 ```
 
 **2. Configure:**
@@ -221,7 +221,7 @@ The app also includes a background task that automatically checks for and proces
 
 ```bash
 git clone <repo-url>
-cd F1timing
+cd PitWall
 cp .env.example .env
 # Edit .env with your settings
 ```
