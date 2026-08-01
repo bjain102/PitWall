@@ -615,7 +615,7 @@ export default function LivePage() {
               <div className="fixed inset-0 bg-black/50 z-40" onClick={() => setShowDelaySlider(false)} />
 
               {/* Delay modal */}
-              <div className="fixed inset-x-6 top-1/2 -translate-y-1/2 sm:inset-auto sm:top-1/2 sm:left-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 z-50 sm:w-[360px] bg-[#1A1A26] border border-f1-border rounded-xl shadow-2xl overflow-hidden">
+              <div className="fixed inset-x-6 top-1/2 -translate-y-1/2 sm:inset-auto sm:top-1/2 sm:left-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 z-50 sm:w-[360px] bg-[#1C1712] border border-f1-border rounded-xl shadow-2xl overflow-hidden">
                 <div className="flex items-center justify-between px-4 sm:px-5 py-3 border-b border-f1-border">
                   <span className="text-sm font-bold text-white">Broadcast Delay</span>
                   <button onClick={() => setShowDelaySlider(false)} className="text-f1-muted hover:text-white">

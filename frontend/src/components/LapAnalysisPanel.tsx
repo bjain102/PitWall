@@ -318,7 +318,7 @@ export default function LapAnalysisPanel({ laps, drivers, currentLap, onClose }:
     };
   }, [chartData, yDomain, slowBands, pitBands, lapRange, currentLap, activeDrivers]);
 
-  const SECOND_DRIVER_COLOR = "#06B6D4"; // cyan to contrast any team colour
+  const SECOND_DRIVER_COLOR = "#4DA6FF"; // cyan to contrast any team colour
 
   function getDriverColor(abbr: string): string {
     const teamColor = drivers.find((d) => d.abbr === abbr)?.color || "#888";
@@ -394,18 +394,18 @@ export default function LapAnalysisPanel({ laps, drivers, currentLap, onClose }:
                       dataKey="lap"
                       type="number"
                       domain={["dataMin", "dataMax"]}
-                      tick={{ fill: "#6B7280", fontSize: 7 }}
+                      tick={{ fill: "#6B6459", fontSize: 7 }}
                       tickLine={false}
-                      axisLine={{ stroke: "#374151" }}
+                      axisLine={{ stroke: "#3A342C" }}
                       allowDecimals={false}
                       ticks={visibleChartData.map((d) => d.lap as number)}
                     />
                     <YAxis
                       domain={visibleYDomain}
                       allowDataOverflow={true}
-                      tick={{ fill: "#6B7280", fontSize: 9 }}
+                      tick={{ fill: "#6B6459", fontSize: 9 }}
                       tickLine={false}
-                      axisLine={{ stroke: "#374151" }}
+                      axisLine={{ stroke: "#3A342C" }}
                       tickFormatter={(v: number) => formatSeconds(v)}
                     />
                     <Tooltip
@@ -417,7 +417,7 @@ export default function LapAnalysisPanel({ laps, drivers, currentLap, onClose }:
                         const bandType = point._bandType as string | null;
                         const bandLabel = bandType === "pit" ? "Pit Stop" : bandType === "slow" ? "Yellow Flag / Slow Lap" : bandType === "lap1" ? "Formation / Lap 1" : null;
                         return (
-                          <div className="bg-[#1A1A26] border border-f1-border rounded-md px-2.5 py-1.5 text-[11px] shadow-xl">
+                          <div className="bg-[#1C1712] border border-f1-border rounded-md px-2.5 py-1.5 text-[11px] shadow-xl">
                             <div className="font-bold text-white mb-0.5">Lap {label}</div>
                             {bandLabel && (
                               <div className={`font-bold mb-0.5 ${bandType === "slow" ? "text-yellow-400" : "text-f1-muted"}`}>
@@ -449,9 +449,9 @@ export default function LapAnalysisPanel({ laps, drivers, currentLap, onClose }:
                         x2={band.x2}
                         y1={visibleYDomain[0]}
                         y2={visibleYDomain[1]}
-                        fill="#EAB308"
+                        fill="#FFD24D"
                         fillOpacity={0.15}
-                        stroke="#EAB308"
+                        stroke="#FFD24D"
                         strokeOpacity={0.3}
                         strokeDasharray="3 3"
                         ifOverflow="extendDomain"
@@ -467,7 +467,7 @@ export default function LapAnalysisPanel({ laps, drivers, currentLap, onClose }:
                         y2={visibleYDomain[1]}
                         fill="#FFFFFF"
                         fillOpacity={0.06}
-                        stroke="#6B7280"
+                        stroke="#6B6459"
                         strokeOpacity={0.3}
                         strokeDasharray="3 3"
                         ifOverflow="extendDomain"

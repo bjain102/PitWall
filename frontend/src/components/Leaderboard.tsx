@@ -136,7 +136,7 @@ export default function Leaderboard({ drivers, highlightedDrivers, onDriverClick
               key={drv.abbr}
               onClick={() => onDriverClick(drv.abbr)}
               className={`w-full flex items-center px-1.5 sm:px-2.5 py-1.5 hover:bg-white/10 transition-all border-b border-f1-border/40 text-left ${
-                isHighlighted ? "bg-f1-red/20 border-l-2 border-l-f1-red" : "even:bg-[#12141F] odd:bg-[#161927]"
+                isHighlighted ? "bg-f1-red/20 border-l-2 border-l-f1-red" : "even:bg-[#141210] odd:bg-[#0F0D0B]"
               } ${drv.no_timing ? "opacity-40" : ""}`}
             >
               {/* Position - slanted F1 broadcast style */}
@@ -146,7 +146,7 @@ export default function Leaderboard({ drivers, highlightedDrivers, onDriverClick
                     <span className="f1-slant-unskew">{drv.position}</span>
                   </span>
                 ) : (
-                  <span className="w-5 h-5 sm:w-6 sm:h-6 f1-slant bg-[#1F2334] border border-f1-border text-white text-[12px] sm:text-xs font-bold flex items-center justify-center">
+                  <span className="w-5 h-5 sm:w-6 sm:h-6 f1-slant bg-[#1C1712] border border-f1-border text-white text-[12px] sm:text-xs font-bold flex items-center justify-center">
                     <span className="f1-slant-unskew">{drv.position ?? "-"}</span>
                   </span>
                 )}
@@ -294,7 +294,7 @@ export default function Leaderboard({ drivers, highlightedDrivers, onDriverClick
                 }
 
                 if (!lastLapTime || lastLapNum < 2 || drv.retired) return (
-                  <span className="w-[50px] sm:w-[60px] flex-shrink-0 text-[11px] sm:text-xs text-right tabular-nums text-f1-muted" title="Last lap time">
+                  <span className="w-[50px] sm:w-[60px] flex-shrink-0 text-[10px] sm:text-[11px] text-right tabular-nums text-f1-muted" title="Last lap time">
                     {drv.retired ? "" : (lastLapTime || "")}
                   </span>
                 );
@@ -337,7 +337,7 @@ export default function Leaderboard({ drivers, highlightedDrivers, onDriverClick
                 const color = isFastest ? "text-purple-400" : isPersonalBest ? "text-green-400" : "text-f1-muted";
 
                 return (
-                  <span className={`w-[50px] sm:w-[60px] flex-shrink-0 text-[11px] sm:text-xs text-right tabular-nums ${color}`} title="Last lap time">
+                  <span className={`w-[50px] sm:w-[60px] flex-shrink-0 text-[10px] sm:text-[11px] text-right tabular-nums ${color}`} title="Last lap time">
                     {lastLapTime}
                   </span>
                 );
@@ -352,7 +352,7 @@ export default function Leaderboard({ drivers, highlightedDrivers, onDriverClick
                       ? sec.color === "purple" ? "bg-purple-500"
                       : sec.color === "green" ? "bg-green-500"
                       : "bg-yellow-500"
-                      : "bg-[#222538] border border-white/20";
+                      : "bg-[#241F19] border border-white/20";
                     return (
                       <span
                         key={sn}
@@ -454,8 +454,8 @@ export default function Leaderboard({ drivers, highlightedDrivers, onDriverClick
                   <span
                     className="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-extrabold leading-none border-2"
                     style={{
-                      borderColor: tyreColor || (drv.in_pit ? "#EAB308" : "#6B7280"),
-                      color: tyreColor || (drv.in_pit ? "#EAB308" : "#9CA3AF"),
+                      borderColor: tyreColor || (drv.in_pit ? "#FFD24D" : "#6B6459"),
+                      color: tyreColor || (drv.in_pit ? "#FFD24D" : "#8B8478"),
                       backgroundColor: "transparent",
                     }}
                   >

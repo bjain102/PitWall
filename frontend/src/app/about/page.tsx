@@ -1,9 +1,9 @@
 export default function AboutPage() {
   return (
     <div className="min-h-screen carbon-bg text-f1-text">
-      <div className="bg-[#10121A] border-b border-f1-border relative f1-stripe-top shadow-lg">
+      <div className="bg-[#0F0D0B] border-b border-f1-border relative f1-stripe-top shadow-lg">
         <div className="max-w-3xl mx-auto px-6 py-6 flex items-center gap-4">
-          <a href="/" className="w-9 h-9 rounded-lg bg-[#181B26] border border-f1-border flex items-center justify-center text-f1-muted hover:text-white hover:border-f1-red/50 transition-all">
+          <a href="/" className="w-9 h-9 rounded-lg bg-[#141210] border border-f1-border flex items-center justify-center text-f1-muted hover:text-white hover:border-f1-red/50 transition-all">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
@@ -62,7 +62,7 @@ export default function AboutPage() {
         <div className="text-center pt-4">
           <a
             href="/"
-            className="inline-flex f1-slant px-5 py-2.5 bg-[#181B26] border border-f1-border text-white text-xs font-black uppercase tracking-widest rounded-lg hover:border-f1-red/50 hover:bg-[#212534] transition-all shadow"
+            className="inline-flex f1-slant px-5 py-2.5 bg-[#141210] border border-f1-border text-white text-xs font-black uppercase tracking-widest rounded-lg hover:border-f1-red/50 hover:bg-[#1C1712] transition-all shadow"
           >
             <span className="f1-slant-unskew">← Back to Session Picker</span>
           </a>

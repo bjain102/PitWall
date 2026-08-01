@@ -129,7 +129,7 @@ export default function AuthGate({ children }: { children: React.ReactNode }) {
             <p className="text-xs text-f1-muted font-semibold mb-3">
               The frontend failed to reach the API server at:
             </p>
-            <code className="block text-xs text-white bg-[#0D0E14] border border-f1-border rounded-lg px-3 py-2 mb-4 break-all font-mono">
+            <code className="block text-xs text-white bg-[#0A0908] border border-f1-border rounded-lg px-3 py-2 mb-4 break-all font-mono">
               {API_URL || (typeof window !== "undefined" ? window.location.origin : "(same origin)")}
             </code>
             <div className="text-xs text-f1-muted space-y-2 font-medium">
@@ -142,7 +142,7 @@ export default function AuthGate({ children }: { children: React.ReactNode }) {
             </div>
             <button
               onClick={checkAuth}
-              className="w-full mt-6 f1-slant px-4 py-2.5 bg-gradient-to-r from-[#E10600] to-[#FF2A2A] text-white text-xs font-black uppercase tracking-widest rounded-lg hover:brightness-110 transition-all shadow-f1-red"
+              className="w-full mt-6 f1-slant px-4 py-2.5 bg-gradient-to-r from-[#FF3D1A] to-[#FF3D1A] text-white text-xs font-black uppercase tracking-widest rounded-lg hover:brightness-110 transition-all shadow-f1-red"
             >
               <span className="f1-slant-unskew">Reconnect Telemetry</span>
             </button>
@@ -180,7 +180,7 @@ export default function AuthGate({ children }: { children: React.ReactNode }) {
               value={passphrase}
               onChange={(e) => setPassphrase(e.target.value)}
               autoFocus
-              className="w-full px-3.5 py-2.5 pr-10 bg-[#0D0E14] border border-f1-border rounded-lg text-white text-sm focus:outline-none focus:border-f1-red focus:ring-1 focus:ring-f1-red transition-all font-mono"
+              className="w-full px-3.5 py-2.5 pr-10 bg-[#0A0908] border border-f1-border rounded-lg text-white text-sm focus:outline-none focus:border-f1-red focus:ring-1 focus:ring-f1-red transition-all font-mono"
               placeholder="Enter Paddock Passcode"
             />
             <button
@@ -210,7 +210,7 @@ export default function AuthGate({ children }: { children: React.ReactNode }) {
           <button
             type="submit"
             disabled={submitting || !passphrase}
-            className="w-full mt-5 f1-slant px-4 py-2.5 bg-gradient-to-r from-[#E10600] to-[#FF2A2A] text-white text-xs font-black uppercase tracking-widest rounded-lg hover:brightness-110 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-f1-red"
+            className="w-full mt-5 f1-slant px-4 py-2.5 bg-gradient-to-r from-[#FF3D1A] to-[#FF3D1A] text-white text-xs font-black uppercase tracking-widest rounded-lg hover:brightness-110 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-f1-red"
           >
             <span className="f1-slant-unskew">
               {submitting ? "Authenticating..." : "Access Pit Wall"}

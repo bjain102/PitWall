@@ -3,9 +3,7 @@
 @tailwind utilities;
 
 :root {
-  --f1-muted: #9CA3AF;
-  --font-barlow-condensed: 'Barlow Condensed', sans-serif;
-  --font-titillium-web: 'Titillium Web', sans-serif;
+  --f1-muted: #8B8478;
 }
 
 .high-contrast {
@@ -16,28 +14,52 @@ html,
 body {
   margin: 0;
   padding: 0;
-  background-color: #0B0C10;
-  color: #F3F4F6;
-  font-family: var(--font-barlow-condensed), system-ui, sans-serif;
-  letter-spacing: 0.02em;
+  background-color: #0A0908;
+  color: #F5F1EA;
+  font-family: var(--font-space-grotesk), system-ui, sans-serif;
 }
 
 * {
   box-sizing: border-box;
 }
 
+/* The redesign has a hard-edged, broadcast-graphics feel: panels, cards,
+   buttons and inputs are all square. Circles (rounded-full) are deliberate
+   - tyre compounds, track dots, status lights - and keep their radius.
+   Squaring the radius utilities here keeps that decision in one place
+   rather than spread across every component. */
+.rounded,
+.rounded-sm,
+.rounded-md,
+.rounded-lg,
+.rounded-xl,
+.rounded-2xl,
+.rounded-3xl {
+  border-radius: 0;
+}
+
 /* F1 Custom Utility Classes */
 .f1-font {
-  font-family: var(--font-barlow-condensed), sans-serif;
+  font-family: var(--font-anton), sans-serif;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.02em;
+  /* Anton ships a single weight. Suppress synthetic bold so the various
+     font-weight utilities applied alongside this class don't smear it. */
+  font-synthesis-weight: none;
 }
 
 .f1-font-title {
-  font-family: var(--font-titillium-web), sans-serif;
-  font-weight: 700;
+  font-family: var(--font-anton), sans-serif;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.02em;
+  font-synthesis-weight: none;
+}
+
+/* Timing data - gaps, intervals, lap times, clocks - is set in the monospace
+   face so digits line up column-to-column, the way a broadcast timing tower
+   reads. tabular-nums already marks exactly these values across the app. */
+.tabular-nums {
+  font-family: var(--font-jetbrains-mono), Consolas, monospace;
 }
 
 .f1-slant {
@@ -48,33 +70,28 @@ body {
   transform: skewX(12deg);
 }
 
-/* Carbon weave background pattern */
+/* Dot-grid backdrop used behind the track map and page shells */
 .carbon-bg {
-  background-color: #0d0e14;
-  background-image: 
-    radial-gradient(rgba(225, 6, 0, 0.08) 1px, transparent 0),
-    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-  background-size: 24px 24px, 12px 12px, 12px 12px;
+  background-color: #0A0908;
+  background-image: radial-gradient(rgba(255, 61, 26, 0.06) 1px, transparent 0);
+  background-size: 22px 22px;
 }
 
 .carbon-card {
-  background: linear-gradient(135deg, rgba(24, 27, 38, 0.95) 0%, rgba(18, 20, 28, 0.98) 100%);
-  border: 1px solid rgba(40, 44, 63, 0.8);
-  backdrop-filter: blur(12px);
+  background: #141210;
+  border: 1px solid #241F19;
 }
 
 .carbon-card-hover {
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: border-color 0.15s, transform 0.15s;
 }
 
 .carbon-card-hover:hover {
-  border-color: rgba(225, 6, 0, 0.6);
-  box-shadow: 0 0 15px rgba(225, 6, 0, 0.25);
-  transform: translateY(-2px);
+  border-color: #FF3D1A;
+  transform: translateY(-3px);
 }
 
-/* F1 Red Top Border Stripe */
+/* Accent top border stripe */
 .f1-stripe-top {
   position: relative;
 }
@@ -86,59 +103,53 @@ body {
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, #E10600 0%, #FF1801 70%, transparent 100%);
+  background: #FF3D1A;
   border-top-left-radius: inherit;
   border-top-right-radius: inherit;
 }
 
 /* Glowing text helpers */
 .glow-text-purple {
-  color: #D000FF;
-  text-shadow: 0 0 8px rgba(208, 0, 255, 0.6);
+  color: #B24DFF;
 }
 
 .glow-text-green {
-  color: #00E676;
-  text-shadow: 0 0 8px rgba(0, 230, 118, 0.6);
+  color: #4DDB8A;
 }
 
 .glow-text-red {
-  color: #E10600;
-  text-shadow: 0 0 8px rgba(225, 6, 0, 0.6);
+  color: #FF3D1A;
 }
 
 /* Scrollbar styling */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0B0C10;
+  background: #0A0908;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #282C3F;
-  border-radius: 3px;
+  background: #2A2620;
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #E10600;
+  background: #3A342C;
 }
 
 /* Pulse animation for live indicators */
 @keyframes f1-pulse {
   0%, 100% {
     opacity: 1;
-    box-shadow: 0 0 8px rgba(225, 6, 0, 0.8);
   }
   50% {
-    opacity: 0.4;
-    box-shadow: 0 0 2px rgba(225, 6, 0, 0.2);
+    opacity: 0.35;
   }
 }
 
 .animate-f1-pulse {
-  animation: f1-pulse 1.8s infinite cubic-bezier(0.4, 0, 0.6, 1);
+  animation: f1-pulse 1.6s infinite;
 }
-

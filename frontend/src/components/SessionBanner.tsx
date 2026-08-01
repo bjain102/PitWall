@@ -193,7 +193,7 @@ export default function SessionBanner({
 
   return (
     <>
-      <div className="bg-[#10121A] border-b border-f1-border px-3 sm:px-6 py-2.5 flex items-center justify-between gap-2 shadow-lg relative f1-stripe-top z-30">
+      <div className="bg-[#0F0D0B] border-b border-f1-border px-3 sm:px-6 py-2.5 flex items-center justify-between gap-2 shadow-lg relative f1-stripe-top z-30">
         <div className="flex items-center gap-2 sm:gap-4 min-w-0">
           <a href="/" className="flex-shrink-0 group">
             <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg overflow-hidden border border-f1-border group-hover:border-f1-red transition-all shadow-md">
@@ -213,14 +213,14 @@ export default function SessionBanner({
 
         {/* Weather - desktop only (inline in header) */}
         {weatherBar && (
-          <div className="hidden lg:flex items-center gap-4 ml-auto mr-6 bg-[#161926] px-3.5 py-1.5 rounded-lg border border-f1-border/60">
+          <div className="hidden lg:flex items-center gap-4 ml-auto mr-6 bg-[#141210] px-3.5 py-1.5 rounded-lg border border-f1-border/60">
             {weatherBar}
           </div>
         )}
 
         <div className="flex items-center gap-1.5 sm:gap-3 flex-shrink-0">
           {extraActions}
-          <div className="f1-slant bg-gradient-to-r from-[#E10600] to-[#FF2A2A] px-3 sm:px-4 py-1.5 rounded text-white font-black text-[11px] sm:text-xs uppercase tracking-widest shadow-f1-red">
+          <div className="f1-slant bg-gradient-to-r from-[#FF3D1A] to-[#FF3D1A] px-3 sm:px-4 py-1.5 rounded text-white font-black text-[11px] sm:text-xs uppercase tracking-widest shadow-f1-red">
             <span className="f1-slant-unskew inline-block">
               {SESSION_LABELS[sessionType] || sessionType}
             </span>
@@ -231,7 +231,7 @@ export default function SessionBanner({
             href="/features"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex w-8 h-8 sm:w-9 sm:h-9 items-center justify-center rounded-lg bg-[#181B26] border border-f1-border hover:border-f1-red/50 hover:bg-[#212534] transition-all text-f1-muted hover:text-white"
+            className="flex w-8 h-8 sm:w-9 sm:h-9 items-center justify-center rounded-lg bg-[#141210] border border-f1-border hover:border-f1-red/50 hover:bg-[#1C1712] transition-all text-f1-muted hover:text-white"
             title="How it works"
           >
             <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -244,7 +244,7 @@ export default function SessionBanner({
           <div className="relative" ref={settingsRef}>
             <button
               onClick={() => setSettingsOpen(!settingsOpen)}
-              className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-lg bg-[#181B26] border border-f1-border hover:border-f1-red/50 hover:bg-[#212534] transition-all text-f1-muted hover:text-white"
+              className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-lg bg-[#141210] border border-f1-border hover:border-f1-red/50 hover:bg-[#1C1712] transition-all text-f1-muted hover:text-white"
               title="Settings"
             >
               <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -268,10 +268,10 @@ export default function SessionBanner({
           {/* Settings modal window - perfectly centered in viewport */}
           <div
             id="f1-telemetry-settings-modal"
-            className="relative z-10 w-full max-w-[540px] h-[460px] carbon-card border border-f1-border rounded-xl shadow-2xl overflow-hidden flex flex-col f1-stripe-top text-left bg-[#141622]"
+            className="relative z-10 w-full max-w-[540px] h-[460px] carbon-card border border-f1-border rounded-xl shadow-2xl overflow-hidden flex flex-col f1-stripe-top text-left bg-[#141210]"
           >
             {/* Modal header */}
-            <div className="flex items-center justify-between px-5 py-3.5 border-b border-f1-border bg-[#141622]">
+            <div className="flex items-center justify-between px-5 py-3.5 border-b border-f1-border bg-[#141210]">
               <span className="text-sm font-black text-white uppercase f1-font tracking-wider flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-f1-red animate-pulse"></span>
                 Telemetry Settings
@@ -289,7 +289,7 @@ export default function SessionBanner({
             {/* Tabs + content side by side */}
             <div className="flex flex-1 min-h-0">
               {/* Tab sidebar */}
-              <div className="flex flex-col border-r border-f1-border py-2 w-36 sm:w-40 flex-shrink-0 bg-[#12141E]">
+              <div className="flex flex-col border-r border-f1-border py-2 w-36 sm:w-40 flex-shrink-0 bg-[#141210]">
                 {(["Leaderboard", "Weather", "Track Map", "Race Control", "Other"] as const).map((tab) => (
                   <button
                     key={tab}
@@ -306,12 +306,12 @@ export default function SessionBanner({
               </div>
 
               {/* Tab content */}
-              <div className="pt-4 pb-2 flex-1 overflow-y-auto px-3 sm:px-4 bg-[#181B26]">
+              <div className="pt-4 pb-2 flex-1 overflow-y-auto px-3 sm:px-4 bg-[#141210]">
                 {settingsTab === "Leaderboard" && (
                   <>
                     <button
                       onClick={() => onSettingChange?.("showLeaderboard", !settings.showLeaderboard)}
-                      className="w-full flex items-center justify-between px-3 py-2 rounded-lg bg-[#1D2130] mb-2 hover:bg-[#252A3E] transition-colors"
+                      className="w-full flex items-center justify-between px-3 py-2 rounded-lg bg-[#1C1712] mb-2 hover:bg-[#241F19] transition-colors"
                     >
                       <span className="text-xs font-bold text-white uppercase tracking-wider f1-font">Show Leaderboard</span>
                       <div className={`relative w-9 h-5 rounded-full transition-colors flex-shrink-0 ${settings.showLeaderboard ? "bg-f1-red" : "bg-f1-border"}`}>
@@ -348,7 +348,7 @@ export default function SessionBanner({
                   <>
                     <button
                       onClick={() => onSettingChange?.("showWeather", !settings.showWeather)}
-                      className="w-full flex items-center justify-between px-3 py-2 rounded-lg bg-[#1D2130] mb-2 hover:bg-[#252A3E] transition-colors"
+                      className="w-full flex items-center justify-between px-3 py-2 rounded-lg bg-[#1C1712] mb-2 hover:bg-[#241F19] transition-colors"
                     >
                       <span className="text-xs font-bold text-white uppercase tracking-wider f1-font">Show Weather</span>
                       <div className={`relative w-9 h-5 rounded-full transition-colors flex-shrink-0 ${settings.showWeather ? "bg-f1-red" : "bg-f1-border"}`}>
@@ -430,7 +430,7 @@ export default function SessionBanner({
 
       {/* Weather bar - mobile only (separate row below header) */}
       {weatherBar && (
-        <div className="lg:hidden bg-[#12141E] border-b border-f1-border px-3 py-2 flex items-center justify-center">
+        <div className="lg:hidden bg-[#141210] border-b border-f1-border px-3 py-2 flex items-center justify-center">
           {weatherBar}
         </div>
       )}

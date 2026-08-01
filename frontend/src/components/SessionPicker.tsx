@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useApi } from "@/hooks/useApi";
 
 interface SessionEntry {
@@ -127,34 +127,9 @@ function formatLocalTime(dateUtc: string | null): { dayDate: string; time: strin
   }
 }
 
-function StatusPill({ status }: { status: Event["status"] }) {
-  switch (status) {
-    case "latest":
-      return (
-        <span className="f1-slant px-2.5 py-0.5 text-[10px] font-black uppercase rounded bg-gradient-to-r from-[#E10600] to-[#FF2A2A] text-white shadow-f1-red">
-          <span className="f1-slant-unskew">Latest</span>
-        </span>
-      );
-    case "available":
-      return (
-        <span className="f1-slant px-2.5 py-0.5 text-[10px] font-bold uppercase rounded bg-green-500/20 text-green-400 border border-green-500/40">
-          <span className="f1-slant-unskew">Available</span>
-        </span>
-      );
-    case "future":
-      return (
-        <span className="f1-slant px-2.5 py-0.5 text-[10px] font-semibold uppercase rounded bg-[#1C2030] text-f1-muted border border-f1-border/40">
-          <span className="f1-slant-unskew">Upcoming</span>
-        </span>
-      );
-  }
-}
-
 export default function SessionPicker() {
   const currentYear = new Date().getFullYear();
   const [year, setYear] = useState(currentYear);
-  const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
-  const [selectedKey, setSelectedKey] = useState<string | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [navigating, setNavigating] = useState(false);
   useEffect(() => {
@@ -167,7 +142,6 @@ export default function SessionPicker() {
       window.removeEventListener("popstate", handlePageShow);
     };
   }, []);
-  const latestRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
 
   const { data: seasonsData } = useApi<SeasonsResponse>("/api/seasons");
@@ -181,11 +155,6 @@ export default function SessionPicker() {
   const events = eventsData?.events || [];
 
   const displayEvents = events;
-
-  const latestEvent = useMemo(
-    () => year === currentYear ? displayEvents.find((e) => e.status === "latest") || null : null,
-    [displayEvents, year, currentYear],
-  );
 
   // Close menu on outside click
   useEffect(() => {
@@ -201,146 +170,114 @@ export default function SessionPicker() {
 
   // No auto-scroll — let the page load at the top
 
-  function EventRow({ evt, id }: { evt: Event; id?: string }) {
+  function SessionBadge({ evt, session }: { evt: Event; session: SessionEntry }) {
+    const code = SESSION_LABELS[session.name];
+    if (!code) return null;
+
+    const localTime = formatLocalTime(session.date_utc);
+    const timeLabel = localTime ? `${session.name} — ${localTime.dayDate} ${localTime.time}` : session.name;
+    const isLive =
+      liveSession?.year === year &&
+      liveSession?.round_number === evt.round_number &&
+      liveSession?.session_type === code;
+
+    const base =
+      "font-mono text-[10px] font-bold px-[7px] py-[3px] border transition-colors";
+
+    if (isLive) {
+      return (
+        <a
+          href={`/live?year=${year}&round=${evt.round_number}&type=${code}`}
+          onClick={() => setNavigating(true)}
+          title={`${timeLabel} (live)`}
+          className={`${base} bg-f1-red border-f1-red text-f1-dark hover:brightness-110`}
+        >
+          {code}
+        </a>
+      );
+    }
+
+    if (session.available) {
+      return (
+        <a
+          href={`/replay?year=${year}&round=${evt.round_number}&type=${code}`}
+          onClick={() => setNavigating(true)}
+          title={timeLabel}
+          className={`${base} bg-f1-cardHover border-f1-borderLight text-f1-muted hover:text-f1-text hover:border-f1-red`}
+        >
+          {code}
+        </a>
+      );
+    }
+
+    return (
+      <span
+        title={`${timeLabel} — not yet available`}
+        className={`${base} bg-f1-card border-f1-border text-f1-subtle cursor-not-allowed`}
+      >
+        {code}
+      </span>
+    );
+  }
+
+  function RoundCard({ evt }: { evt: Event }) {
     const displayEvt = displayEvents.find((e) => e.round_number === evt.round_number) || evt;
     const isLatest = displayEvt.status === "latest" && year === currentYear;
     const isFuture = displayEvt.status === "future";
-    const selectionKey = id || String(evt.round_number);
-    const isSelected = selectedKey === selectionKey;
+    const hasLive = liveSession?.year === year && liveSession?.round_number === evt.round_number;
 
     return (
       <div
-        className={`carbon-card border rounded-xl overflow-hidden transition-all duration-200 cursor-pointer ${
-          isSelected && isLatest
-            ? "border-f1-red ring-1 ring-f1-red/50 shadow-f1-glow"
-            : isSelected
-              ? "border-white/80 ring-1 ring-white/30 shadow-lg"
-              : isLatest
-                ? "border-f1-red/80 shadow-f1-glow"
-              : isFuture
-                ? "border-f1-border/40 opacity-55 hover:opacity-80"
-                : "border-f1-border/80 hover:border-f1-red/60 hover:shadow-md"
+        className={`relative bg-f1-card border p-5 transition-all duration-150 ${
+          isFuture
+            ? "border-f1-border opacity-60"
+            : "border-f1-border hover:border-f1-red hover:-translate-y-[3px]"
         }`}
       >
-        {/* Compact header row */}
         <div
-          className="px-4 sm:px-5 py-3.5 flex items-center gap-3 sm:gap-4 cursor-pointer"
-          onClick={() => { if (isSelected) { setSelectedKey(null); } else { setSelectedKey(selectionKey); setSelectedEvent(evt); } }}
-        >
-          <span className="text-xs font-black text-f1-red w-8 flex-shrink-0 f1-font">R{evt.round_number}</span>
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2">
-              {COUNTRY_CODES[evt.country] && (
-                <span className="text-xs font-black text-white px-1.5 py-0.5 rounded bg-[#1F2334] border border-f1-border/60 flex-shrink-0 f1-font">
-                  {COUNTRY_CODES[evt.country]}
-                </span>
-              )}
-              <span className="text-white font-extrabold text-sm sm:text-base f1-font tracking-wide truncate">
-                {evt.event_name}
-              </span>
-            </div>
-            <div className="sm:hidden flex items-center justify-between mt-1">
-              <span className="text-[11px] text-f1-muted font-semibold">{evt.event_date}</span>
-              <StatusPill status={isLatest ? "latest" : displayEvt.status === "latest" ? "available" : displayEvt.status} />
-            </div>
-          </div>
-          <span className="text-xs font-semibold text-f1-muted hidden sm:block flex-shrink-0 w-48 text-right truncate">
-            {evt.location}, {evt.country}
+          className="absolute top-0 left-0 right-0 h-[3px]"
+          style={{ backgroundColor: hasLive || isLatest ? "#FF3D1A" : "#3A342C" }}
+        />
+
+        <div className="flex justify-between items-start mb-3.5">
+          <span className="f1-font text-[34px] leading-none text-f1-dim">
+            {String(evt.round_number).padStart(2, "0")}
           </span>
-          <span className="text-xs font-bold text-f1-muted hidden sm:block flex-shrink-0 w-24 text-right tabular-nums">{evt.event_date}</span>
-          <span className="hidden sm:flex flex-shrink-0 w-24 justify-end">
-            <StatusPill status={isLatest ? "latest" : displayEvt.status === "latest" ? "available" : displayEvt.status} />
-          </span>
-          <svg
-            className={`w-4 h-4 text-f1-muted transition-transform flex-shrink-0 ${isSelected ? "rotate-180 text-f1-red" : ""}`}
-            fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-          </svg>
+          {hasLive && (
+            <span className="font-mono text-[10px] font-bold tracking-[0.1em] text-f1-red border border-f1-red px-1.5 py-0.5">
+              LIVE
+            </span>
+          )}
         </div>
 
-        {/* Expanded session drawer */}
-        {isSelected && (
-          <div className="px-5 pb-4 flex flex-wrap gap-3 border-t border-f1-border/60 pt-4 bg-[#141622]/80" onClick={(e) => e.stopPropagation()}>
-            {evt.sessions.map((session) => {
-              const code = SESSION_LABELS[session.name];
-              if (!code) return null;
-              const localTime = formatLocalTime(session.date_utc);
-              const isLive = liveSession?.year === year && liveSession?.round_number === evt.round_number && liveSession?.session_type === code;
-              if (isLive) {
-                return (
-                  <div key={session.name} className="flex flex-col items-center">
-                    {localTime && (
-                      <span className="text-[10px] font-bold text-red-400 mb-1 text-center leading-tight">
-                        {localTime.dayDate}<br />{localTime.time}
-                      </span>
-                    )}
-                    <a
-                      href={`/live?year=${year}&round=${evt.round_number}&type=${code}`}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setNavigating(true);
-                      }}
-                      className="f1-slant px-4 py-2 bg-gradient-to-r from-[#E10600] to-[#FF2A2A] text-white text-xs font-black rounded uppercase tracking-wider hover:brightness-110 transition-all flex items-center gap-2 shadow-f1-red"
-                    >
-                      <span className="f1-slant-unskew flex items-center gap-1.5">
-                        <span className="relative flex h-2 w-2">
-                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75" />
-                          <span className="relative inline-flex rounded-full h-2 w-2 bg-white" />
-                        </span>
-                        {session.name}
-                      </span>
-                    </a>
-                  </div>
-                );
-              }
-              if (session.available) {
-                return (
-                  <div key={session.name} className="flex flex-col items-center">
-                    {localTime && (
-                      <span className="text-[10px] text-f1-muted mb-1 text-center leading-tight">
-                        {localTime.dayDate}<br />{localTime.time}
-                      </span>
-                    )}
-                    <a
-                      href={`/replay?year=${year}&round=${evt.round_number}&type=${code}`}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setNavigating(true);
-                      }}
-                      className="f1-slant px-4 py-2 bg-[#1F2334] border border-f1-border text-white text-xs font-extrabold rounded uppercase tracking-wider hover:bg-gradient-to-r hover:from-[#E10600] hover:to-[#FF2A2A] hover:border-transparent transition-all shadow-sm"
-                    >
-                      <span className="f1-slant-unskew">{session.name}</span>
-                    </a>
-                  </div>
-                );
-              }
-              return (
-                <div key={session.name} className="flex flex-col items-center">
-                  {localTime && (
-                    <span className="text-[10px] text-f1-muted/50 mb-1 text-center leading-tight">
-                      {localTime.dayDate}<br />{localTime.time}
-                    </span>
-                  )}
-                  <span
-                    className="f1-slant px-4 py-2 bg-[#161824] border border-f1-border/30 text-f1-muted/40 text-xs font-bold rounded uppercase tracking-wider cursor-not-allowed"
-                  >
-                    <span className="f1-slant-unskew">{session.name}</span>
-                  </span>
-                </div>
-              );
-            })}
-            {isFuture && (
-              <p className="text-xs text-f1-muted w-full font-semibold uppercase tracking-wider f1-font">Sessions not yet available</p>
-            )}
-          </div>
-        )}
+        <div className="flex items-center gap-2 mb-0.5">
+          {COUNTRY_CODES[evt.country] && (
+            <span className="font-mono text-[10px] font-bold text-f1-muted flex-shrink-0">
+              {COUNTRY_CODES[evt.country]}
+            </span>
+          )}
+          <span className="font-bold text-[15px] text-f1-text truncate" title={evt.event_name}>
+            {evt.event_name}
+          </span>
+        </div>
+        <div className="text-xs text-f1-muted mb-4 truncate">
+          {evt.location} · {evt.event_date}
+        </div>
+
+        <div className="flex gap-1.5 flex-wrap">
+          {evt.sessions.map((session) => (
+            <SessionBadge key={session.name} evt={evt} session={session} />
+          ))}
+          {isFuture && evt.sessions.length === 0 && (
+            <span className="font-mono text-[10px] text-f1-subtle">SCHEDULE TBC</span>
+          )}
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen carbon-bg text-f1-text">
+    <div className="min-h-screen bg-f1-dark text-f1-text flex flex-col">
       {/* Loading overlay */}
       {navigating && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center">
@@ -351,148 +288,131 @@ export default function SessionPicker() {
         </div>
       )}
 
-      {/* Header */}
-      <div className="bg-[#10121A] border-b border-f1-border relative f1-stripe-top shadow-xl">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8 flex items-center gap-4 sm:gap-6">
-          <div className="w-12 h-12 sm:w-[72px] sm:h-[72px] rounded-xl overflow-hidden border border-f1-border/80 shadow-f1-glow flex-shrink-0">
-            <img src="/logo.png" alt="PitWall" className="w-full h-full object-cover" />
-          </div>
-          <div className="flex-1 min-w-0">
-            <h1 className="text-2xl sm:text-4xl font-black text-white mb-1 f1-font tracking-wide flex items-center gap-2.5">
-              <span className="text-f1-red">Pit</span>Wall
-            </h1>
-            <p className="text-f1-muted text-xs sm:text-sm font-semibold uppercase tracking-wider">
-              Race Replay & Pit Wall Telemetry Visualizer
-            </p>
-          </div>
-          {/* Desktop: text buttons */}
-          <div className="hidden sm:flex items-center gap-3">
-            <a
-              href="/features"
-              className="px-4 py-2.5 bg-[#181B26] border border-f1-border text-f1-muted hover:text-white hover:border-f1-red/50 text-xs font-black uppercase tracking-wider rounded-lg transition-all f1-font"
-            >
-              Features
-            </a>
-            <a
-              href="/about"
-              className="px-4 py-2.5 bg-[#181B26] border border-f1-border text-f1-muted hover:text-white hover:border-f1-red/50 text-xs font-black uppercase tracking-wider rounded-lg transition-all f1-font"
-            >
-              About
-            </a>
-          </div>
-          {/* Mobile: hamburger menu */}
-          <div className="relative sm:hidden" ref={menuRef}>
-            <button
-              onClick={() => setMenuOpen(!menuOpen)}
-              className="w-10 h-10 flex items-center justify-center rounded-lg bg-[#181B26] border border-f1-border text-f1-muted hover:text-white transition-colors"
-            >
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </button>
-            {menuOpen && (
-              <div className="absolute right-0 top-12 w-44 carbon-card border border-f1-border rounded-xl shadow-2xl z-50 py-1.5 f1-stripe-top">
-                <a
-                  href="/features"
-                  className="block px-4 py-2.5 text-xs font-extrabold uppercase f1-font text-f1-muted hover:text-white hover:bg-white/5 transition-colors"
-                >
-                  Features
-                </a>
-                <a
-                  href="/about"
-                  className="block px-4 py-2.5 text-xs font-extrabold uppercase f1-font text-f1-muted hover:text-white hover:bg-white/5 transition-colors"
-                >
-                  About
-                </a>
-              </div>
-            )}
-          </div>
+      {/* Top nav */}
+      <div className="flex items-center gap-4 sm:gap-7 px-4 sm:px-7 h-[60px] flex-shrink-0 bg-f1-surface border-b border-f1-border relative z-30">
+        <a href="/" className="flex items-center gap-2.5 flex-shrink-0">
+          <span className="w-[10px] h-[22px] bg-f1-red f1-slant" />
+          <span className="f1-font text-[22px] text-f1-text tracking-[0.02em]">PITWALL</span>
+        </a>
+
+        <nav className="hidden sm:flex items-center gap-1 ml-3">
+          <a href="/features" className="px-4 py-2.5 text-[12px] font-semibold tracking-[0.12em] uppercase text-f1-muted hover:text-f1-text hover:bg-f1-cardHover transition-colors">
+            Features
+          </a>
+          <a href="/about" className="px-4 py-2.5 text-[12px] font-semibold tracking-[0.12em] uppercase text-f1-muted hover:text-f1-text hover:bg-f1-cardHover transition-colors">
+            About
+          </a>
+        </nav>
+
+        <div className="ml-auto hidden sm:flex items-center gap-2.5">
+          <span className="font-mono text-[11px] text-f1-muted tracking-[0.05em]">SEASON</span>
+          <span className="font-mono text-[13px] font-bold text-f1-text bg-f1-cardHover px-3 py-1.5 border border-f1-borderLight">
+            {year}
+          </span>
+        </div>
+
+        {/* Mobile menu */}
+        <div className="relative sm:hidden ml-auto" ref={menuRef}>
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="w-10 h-10 flex items-center justify-center bg-f1-card border border-f1-border text-f1-muted hover:text-white transition-colors"
+          >
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+          {menuOpen && (
+            <div className="absolute right-0 top-12 w-44 bg-f1-card border border-f1-border shadow-2xl z-50 py-1.5 f1-stripe-top">
+              <a href="/features" className="block px-4 py-2.5 text-xs font-extrabold uppercase f1-font text-f1-muted hover:text-white hover:bg-white/5 transition-colors">
+                Features
+              </a>
+              <a href="/about" className="block px-4 py-2.5 text-xs font-extrabold uppercase f1-font text-f1-muted hover:text-white hover:bg-white/5 transition-colors">
+                About
+              </a>
+            </div>
+          )}
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
-        {/* Season selector */}
-        <div className="flex gap-2 mb-8 flex-wrap max-w-3xl mx-auto justify-center sm:justify-start">
-          {seasons.map((s) => (
-            <button
-              key={s}
-              onClick={() => { setYear(s); setSelectedEvent(null); }}
-              className={`f1-slant px-4 py-2 rounded-lg text-sm font-black transition-all uppercase tracking-wider ${
-                year === s
-                  ? "bg-gradient-to-r from-[#E10600] to-[#FF2A2A] text-white shadow-f1-red scale-105"
-                  : "bg-[#141724] text-f1-muted hover:text-white border border-f1-border hover:border-f1-red/40"
-              }`}
-            >
-              <span className="f1-slant-unskew">{s}</span>
-            </button>
-          ))}
+      <div className="flex-1">
+        {/* Hero */}
+        <div
+          className="relative px-5 sm:px-10 pt-12 sm:pt-[72px] pb-10 sm:pb-14 overflow-hidden"
+          style={{
+            backgroundImage:
+              "repeating-linear-gradient(-55deg, rgba(255,61,26,0.05) 0px, rgba(255,61,26,0.05) 2px, transparent 2px, transparent 26px)",
+          }}
+        >
+          <div className="max-w-[1200px] mx-auto">
+            <div className="flex items-center gap-2.5 mb-4">
+              <span className="w-7 h-1.5 bg-f1-red" />
+              <span className="font-mono text-[11px] sm:text-xs tracking-[0.2em] text-f1-redGlow uppercase">
+                Timing Tower &amp; Track Map
+              </span>
+            </div>
+            <h1 className="f1-font text-[44px] sm:text-[68px] lg:text-[88px] leading-[0.94] text-f1-text tracking-[0.01em] text-balance">
+              EVERY SESSION.<br />EVERY GAP.<br />
+              <span className="text-f1-red">DOWN TO THE TENTH.</span>
+            </h1>
+            <p className="max-w-[560px] mt-6 text-[15px] sm:text-base leading-relaxed text-f1-secondary">
+              Live timing and replay for Formula 1 race weekends — leaderboard, track position,
+              pit strategy and telemetry, rebuilt for people who watch races like it&apos;s a job.
+            </p>
+          </div>
         </div>
 
-        {eventsLoading ? (
-          <div className="text-f1-muted text-center py-24">
-            <div className="inline-block w-10 h-10 border-4 border-f1-border border-t-f1-red rounded-full animate-spin mb-4 shadow-f1-red" />
-            <p className="f1-font text-sm tracking-wider font-bold">Fetching Grand Prix Data...</p>
-          </div>
-        ) : (
-          <>
-            {/* Live session banner */}
-            {liveSession && liveSession.year === year && (
-              <div className="mb-8 max-w-3xl mx-auto">
-                <a
-                  href={`/live?year=${liveSession.year}&round=${liveSession.round_number}&type=${liveSession.session_type}`}
-                  onClick={() => setNavigating(true)}
-                  className="block carbon-card border border-f1-red/60 rounded-xl overflow-hidden hover:border-f1-red transition-all group shadow-f1-glow f1-stripe-top"
+        <div className="max-w-[1200px] mx-auto px-5 sm:px-10 pb-20">
+          {/* Live session banner */}
+          {liveSession && liveSession.year === year && (
+            <a
+              href={`/live?year=${liveSession.year}&round=${liveSession.round_number}&type=${liveSession.session_type}`}
+              onClick={() => setNavigating(true)}
+              className="flex items-center gap-4 px-5 py-4 border border-[#4A2A20] border-l-4 border-l-f1-red -mt-6 mb-10 transition-colors hover:brightness-125"
+              style={{ backgroundImage: "linear-gradient(90deg, rgba(255,61,26,0.12), rgba(255,61,26,0.02))" }}
+            >
+              <span className="w-2.5 h-2.5 rounded-full bg-f1-red animate-f1-pulse flex-shrink-0" />
+              <span className="font-mono text-xs font-bold tracking-[0.15em] text-f1-redGlow flex-shrink-0">LIVE NOW</span>
+              <span className="text-f1-text font-semibold text-sm truncate">
+                {COUNTRY_FLAGS[liveSession.country] && <span className="mr-2">{COUNTRY_FLAGS[liveSession.country]}</span>}
+                Round {liveSession.round_number} — {liveSession.event_name} · {liveSession.session_name}
+              </span>
+              <span className="ml-auto font-mono text-xs text-f1-muted flex-shrink-0 hidden sm:inline">Watch →</span>
+            </a>
+          )}
+
+          {/* Calendar header + season switcher */}
+          <div className="flex items-baseline justify-between gap-4 mb-5 flex-wrap">
+            <h2 className="f1-font text-2xl text-f1-text tracking-[0.02em]">{year} CALENDAR</h2>
+            <div className="flex gap-1.5 flex-wrap">
+              {seasons.map((s) => (
+                <button
+                  key={s}
+                  onClick={() => setYear(s)}
+                  className={`font-mono text-xs font-bold px-3.5 py-1.5 border transition-colors ${
+                    year === s
+                      ? "bg-f1-red border-f1-red text-f1-dark"
+                      : "bg-f1-cardHover border-f1-borderLight text-f1-muted hover:text-f1-text"
+                  }`}
                 >
-                  <div className="px-5 py-4 flex items-center gap-4">
-                    <div className="f1-slant flex items-center gap-2 px-3 py-1.5 bg-gradient-to-r from-[#E10600] to-[#FF2A2A] rounded text-xs font-black text-white uppercase tracking-widest flex-shrink-0 shadow-f1-red">
-                      <span className="f1-slant-unskew flex items-center gap-1.5">
-                        <span className="relative flex h-2 w-2">
-                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75" />
-                          <span className="relative inline-flex rounded-full h-2 w-2 bg-white" />
-                        </span>
-                        LIVE
-                      </span>
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <h3 className="text-white font-black text-base group-hover:text-f1-red transition-colors f1-font tracking-wide">
-                        {COUNTRY_FLAGS[liveSession.country] && <span className="mr-2">{COUNTRY_FLAGS[liveSession.country]}</span>}
-                        {liveSession.event_name} — {liveSession.session_name}
-                      </h3>
-                      <p className="text-f1-muted text-xs font-semibold">
-                        {liveSession.pre_session ? "Pre-session build-up — click to launch live timing feed" : "Session in progress — click to launch live timing feed"}
-                      </p>
-                    </div>
-                    <svg className="w-5 h-5 text-f1-muted group-hover:text-white transition-colors flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                    </svg>
-                  </div>
-                </a>
-              </div>
-            )}
-
-            {/* Latest round at top */}
-            {latestEvent && (
-              <div className="mb-8 max-w-3xl mx-auto">
-                <h2 className="text-xs font-black text-f1-muted uppercase tracking-widest mb-3 flex items-center gap-2 f1-font">
-                  <span className="w-2 h-2 rounded-full bg-f1-red"></span>
-                  Most Recent Grand Prix
-                </h2>
-                <EventRow evt={latestEvent} id="featured" />
-              </div>
-            )}
-
-            {/* Season list */}
-            <h2 className="text-xs font-black text-f1-muted uppercase tracking-widest mb-4 max-w-3xl mx-auto flex items-center gap-2 f1-font">
-              <span className="w-2 h-2 rounded-full bg-f1-border"></span>
-              {year} Formula 1 Season Calendar
-            </h2>
-            <div className="flex flex-col gap-2.5 max-w-3xl mx-auto">
-              {displayEvents.map((evt) => (
-                <EventRow key={evt.round_number} evt={evt} />
+                  {s}
+                </button>
               ))}
             </div>
-          </>
-        )}
+          </div>
+
+          {eventsLoading ? (
+            <div className="text-f1-muted text-center py-24">
+              <div className="inline-block w-10 h-10 border-4 border-f1-border border-t-f1-red rounded-full animate-spin mb-4 shadow-f1-red" />
+              <p className="f1-font text-sm tracking-wider">Fetching Grand Prix Data...</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3.5">
+              {displayEvents.map((evt) => (
+                <RoundCard key={evt.round_number} evt={evt} />
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

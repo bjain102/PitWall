@@ -81,7 +81,7 @@ export default function PlaybackControls({
   const playPauseBtn = (
     <button
       onClick={finished ? onReset : playing ? onPause : onPlay}
-      className="w-10 h-10 flex items-center justify-center bg-gradient-to-r from-[#E10600] to-[#FF2A2A] hover:from-[#FF1801] hover:to-[#FF3B3B] rounded-full transition-all text-white flex-shrink-0 shadow-f1-red hover:scale-105"
+      className="w-10 h-10 flex items-center justify-center bg-gradient-to-r from-[#FF3D1A] to-[#FF3D1A] hover:from-[#FF6A44] hover:to-[#FF4D4D] rounded-full transition-all text-white flex-shrink-0 shadow-f1-red hover:scale-105"
     >
       {finished ? (
         <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -101,7 +101,7 @@ export default function PlaybackControls({
 
   const progressBar = (
     <div
-      className="w-full h-2.5 bg-[#1C2030] rounded-full cursor-pointer relative group border border-f1-border/60 overflow-hidden"
+      className="w-full h-2.5 bg-[#1C1712] rounded-full cursor-pointer relative group border border-f1-border/60 overflow-hidden"
       onClick={(e) => {
         const rect = e.currentTarget.getBoundingClientRect();
         const pct = (e.clientX - rect.left) / rect.width;
@@ -109,7 +109,7 @@ export default function PlaybackControls({
       }}
     >
       <div
-        className="h-full bg-gradient-to-r from-[#E10600] to-[#FF2A2A] rounded-full transition-all duration-100 relative shadow-f1-red"
+        className="h-full bg-gradient-to-r from-[#FF3D1A] to-[#FF3D1A] rounded-full transition-all duration-100 relative shadow-f1-red"
         style={{ width: `${progress}%` }}
       >
         <div className="absolute right-0 top-1/2 -translate-y-1/2 w-3.5 h-3.5 bg-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-md" />

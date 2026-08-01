@@ -3,7 +3,7 @@
 export default function FeaturesPage() {
   return (
     <div className="min-h-screen carbon-bg text-f1-text">
-      <div className="bg-[#10121A] border-b border-f1-border relative f1-stripe-top shadow-lg">
+      <div className="bg-[#0F0D0B] border-b border-f1-border relative f1-stripe-top shadow-lg">
         <div className="max-w-3xl mx-auto px-6 py-6 flex items-center gap-4">
           <button
             onClick={() => {
@@ -13,7 +13,7 @@ export default function FeaturesPage() {
                 window.location.href = "/";
               }
             }}
-            className="w-9 h-9 rounded-lg bg-[#181B26] border border-f1-border flex items-center justify-center text-f1-muted hover:text-white hover:border-f1-red/50 transition-all"
+            className="w-9 h-9 rounded-lg bg-[#141210] border border-f1-border flex items-center justify-center text-f1-muted hover:text-white hover:border-f1-red/50 transition-all"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -66,8 +66,8 @@ export default function FeaturesPage() {
             <div className="flex items-center gap-3 flex-wrap sm:flex-nowrap">
               <span className="w-24 flex-shrink-0 text-sm font-bold text-f1-muted">Team colour</span>
               <span className="flex items-center gap-1.5 flex-shrink-0">
-                <span className="w-1 h-6 rounded-sm" style={{ backgroundColor: "#FF8000" }} />
-                <span className="w-1 h-6 rounded-sm" style={{ backgroundColor: "#E80020" }} />
+                <span className="w-1 h-6 rounded-sm" style={{ backgroundColor: "#FF8A1E" }} />
+                <span className="w-1 h-6 rounded-sm" style={{ backgroundColor: "#FF3D1A" }} />
               </span>
               <span className="w-full sm:w-auto text-sm text-f1-text">A colour bar next to each driver matching their constructor.</span>
             </div>
@@ -136,8 +136,8 @@ export default function FeaturesPage() {
             <div className="flex items-center gap-3 flex-wrap sm:flex-nowrap">
               <span className="w-24 flex-shrink-0 text-sm font-bold text-f1-muted">Tyre compound</span>
               <span className="flex items-center gap-1.5 flex-shrink-0">
-                <span className="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-extrabold leading-none border-2" style={{ borderColor: "#E80020", color: "#E80020" }}>S</span>
-                <span className="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-extrabold leading-none border-2" style={{ borderColor: "#FFC800", color: "#FFC800" }}>M</span>
+                <span className="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-extrabold leading-none border-2" style={{ borderColor: "#FF3D1A", color: "#FF3D1A" }}>S</span>
+                <span className="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-extrabold leading-none border-2" style={{ borderColor: "#FFC94D", color: "#FFC94D" }}>M</span>
                 <span className="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-extrabold leading-none border-2" style={{ borderColor: "#FFFFFF", color: "#FFFFFF" }}>H</span>
               </span>
               <span className="w-full sm:w-auto text-sm text-f1-text">The current tyre compound shown as a colour-coded circle.</span>
@@ -154,8 +154,8 @@ export default function FeaturesPage() {
             <div className="flex items-center gap-3 flex-wrap sm:flex-nowrap">
               <span className="w-24 flex-shrink-0 text-sm font-bold text-f1-muted">Tyre history</span>
               <span className="flex items-center gap-0.5 flex-shrink-0">
-                <span className="w-3.5 h-3.5 rounded-full flex items-center justify-center text-[7px] font-extrabold leading-none border opacity-50" style={{ borderColor: "#E80020", color: "#E80020" }}>S</span>
-                <span className="w-3.5 h-3.5 rounded-full flex items-center justify-center text-[7px] font-extrabold leading-none border opacity-50" style={{ borderColor: "#FFC800", color: "#FFC800" }}>M</span>
+                <span className="w-3.5 h-3.5 rounded-full flex items-center justify-center text-[7px] font-extrabold leading-none border opacity-50" style={{ borderColor: "#FF3D1A", color: "#FF3D1A" }}>S</span>
+                <span className="w-3.5 h-3.5 rounded-full flex items-center justify-center text-[7px] font-extrabold leading-none border opacity-50" style={{ borderColor: "#FFC94D", color: "#FFC94D" }}>M</span>
               </span>
               <span className="w-full sm:w-auto text-sm text-f1-text">The last two tyre compounds used, shown as smaller icons. Race only.</span>
             </div>
@@ -205,7 +205,7 @@ export default function FeaturesPage() {
               <span className="flex items-center gap-1.5 flex-shrink-0">
                 <span className="text-[10px] tabular-nums text-white">1:32.456</span>
                 <span className="text-[8px] font-bold text-yellow-400">PIT</span>
-                <span className="w-3 h-3 rounded-full flex items-center justify-center text-[6px] font-extrabold leading-none border" style={{ borderColor: "#FF3333", color: "#FF3333" }}>S</span>
+                <span className="w-3 h-3 rounded-full flex items-center justify-center text-[6px] font-extrabold leading-none border" style={{ borderColor: "#FF4D4D", color: "#FF4D4D" }}>S</span>
               </span>
               <span className="w-full sm:w-auto text-sm text-f1-text">Full lap-by-lap breakdown showing lap time, tyre compound, and pit stop indicators for each selected driver.</span>
             </div>

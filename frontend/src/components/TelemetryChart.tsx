@@ -33,7 +33,7 @@ function BarPips({
             className="w-[4px] rounded-[1px] transition-colors duration-100"
             style={{
               height: `${h}px`,
-              backgroundColor: active ? color : "#3A3A4A",
+              backgroundColor: active ? color : "#3A342C",
             }}
           />
         );
@@ -43,9 +43,9 @@ function BarPips({
 }
 
 const SECTOR_COLORS: Record<string, string> = {
-  purple: "#A855F7",
-  green: "#22C55E",
-  yellow: "#EAB308",
+  purple: "#B24DFF",
+  green: "#4DDB8A",
+  yellow: "#FFD24D",
 };
 
 export default function TelemetryChart({ visible, driver, year, isQualifying, useImperial }: Props) {
@@ -93,7 +93,7 @@ export default function TelemetryChart({ visible, driver, year, isQualifying, us
                 <span
                   key={sn}
                   className="w-[6px] h-[14px] rounded-[1px]"
-                  style={{ backgroundColor: sec ? SECTOR_COLORS[sec.color] || "#3A3A4A" : "#3A3A4A" }}
+                  style={{ backgroundColor: sec ? SECTOR_COLORS[sec.color] || "#3A342C" : "#3A342C" }}
                 />
               );
             })}
@@ -112,13 +112,13 @@ export default function TelemetryChart({ visible, driver, year, isQualifying, us
         {/* Throttle */}
         <div className="w-[52px] sm:w-[50px] flex items-center gap-[3px] shrink-0">
           <span className="text-[9px] font-bold text-f1-muted uppercase w-[20px] sm:w-auto">Thr</span>
-          <BarPips value={throttle} max={100} color="#22C55E" />
+          <BarPips value={throttle} max={100} color="#4DDB8A" />
         </div>
 
         {/* Brake */}
         <div className="w-[52px] sm:w-[48px] flex items-center gap-[3px] shrink-0">
           <span className="text-[9px] font-bold text-f1-muted uppercase w-[20px] sm:w-auto">Brk</span>
-          <BarPips value={brake} max={100} color="#EF4444" />
+          <BarPips value={brake} max={100} color="#FF4D4D" />
         </div>
 
         {/* Gear */}
@@ -136,7 +136,7 @@ export default function TelemetryChart({ visible, driver, year, isQualifying, us
           <span className="text-[10px] font-extrabold text-white tabular-nums text-right w-[28px] sm:w-[32px]">
             {Math.round(rpm / 100) / 10}k
           </span>
-          <BarPips value={rpm} max={15000} color="#F59E0B" />
+          <BarPips value={rpm} max={15000} color="#FFD24D" />
         </div>
 
         {/* DRS (not available from 2026) */}

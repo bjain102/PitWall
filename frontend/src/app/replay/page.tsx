@@ -342,8 +342,8 @@ export default function ReplayPage() {
   const effectiveTotalTime = isPractice ? Math.min(replay.totalTime, PRACTICE_DURATION) : replay.totalTime;
 
   // Compute sector overlay for track map
-  const SECTOR_HEX: Record<string, string> = { purple: "#A855F7", green: "#22C55E", yellow: "#EAB308" };
-  const DEFAULT_SECTOR = "#3A3A4A";
+  const SECTOR_HEX: Record<string, string> = { purple: "#B24DFF", green: "#4DDB8A", yellow: "#FFD24D" };
+  const DEFAULT_SECTOR = "#3A342C";
   const sectorOverlay: SectorOverlay | null = (() => {
     if (!hasSectors || !showSectorOverlay || !trackData?.sector_boundaries) return null;
     const target = sectorFocusDriver && selectedDrivers.includes(sectorFocusDriver)
