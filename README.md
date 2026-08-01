@@ -7,7 +7,9 @@
 - **F1 Broadcast TV UI Redesign**: Overhauled timing towers with Barlow Condensed typography, slanted broadcast position pills, team color bars, tyre compound badges (`S`, `M`, `H`), and responsive weather widgets.
 - **AI Pair-Programmed with Google Antigravity**: Built and refactored using Google Antigravity AI.
 
-https://github.com/user-attachments/assets/952b8634-2470-46d9-96e2-67a820459a49
+<img width="1847" height="972" alt="Screenshot 2026-08-01 223255" src="https://github.com/user-attachments/assets/824da696-ce42-4b4f-a637-974434b36fe8" />
+
+https://github.com/user-attachments/assets/ab37e29f-b15e-408f-bf15-4fae050b960b
 
 A web app for watching Formula 1 sessions with real timing data, car positions on track, driver telemetry, and more - both live during race weekends and as replays of past sessions. Built with Next.js and FastAPI.
 
